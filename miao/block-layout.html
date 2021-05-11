@@ -38,7 +38,6 @@
       border-bottom: 1px dotted black;
       margin:auto;
       
-      
     }
     .a5 {
       border-color: transparent;
@@ -46,25 +45,39 @@
 
 
 
+    
 
-
-    /* table {
-      margin:auto;
-    }
-
-    table td {
-      width: 174px;
-      height: 34px;
+    section div {
+      width: 180px;
+      height: 40px;
       background-color: pink;
       border: 3px solid black;
+      margin-top: 15px;
       text-align: center;
-      margin: 7.5px 15px;
+      line-height: 40px;
+
+      
     }
-    table td:hover {
+    section div:hover {
       background-color: red;
-    } */
+    }
 
-
+    section div:nth-child(n+5) {
+      margin-left: 210px;
+    }
+    section div:nth-child(n+9) {
+      margin-left: 420px;
+    }
+    section div:nth-child(4n+5) {
+      margin-top: -230px;
+      
+    }
+    section {
+      width: 600px;
+      height:205px;
+      margin: 0 auto;
+      margin-bottom: 40px;
+    }
     .haha {
       background-color: rgb(238,138,238);
       height: 40px;
@@ -75,10 +88,34 @@
       color: black;
       width:600px;
       text-align: center;
-      
       margin: auto;
-
     }
+
+    main {
+      font-size: 0;
+      display: inline-block;
+      width: 640px;
+      box-sizing: border-box;
+      margin: auto;
+      line-height: 40px;
+      font-size: 0;
+      
+    }
+    main div {
+      font-size: 16px;
+      display: inline-block;
+      width: 180px;
+      height: 40px;
+      background-color: pink;
+      text-align: center;
+      border: 3px solid black;
+      
+      
+    }
+    main div:hover {
+      background-color: red;
+    }
+
       
       
       
@@ -94,37 +131,52 @@
   <div class="mm"><p>hello world 请调整浏览器窗口大小查看效果</p></div>
   <p class="ha">页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px 页面主体 宽度600px</p>
   
+  
+  
+  
+  <section>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+  </section>
+
+  <main>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+    <div>产品</div>
+  </main>
+
+
+
+
   <p class="a1">link</p>
   <p class="a2">link</p>
   <p class="a3">link</p>
   <p class="a4">link</p>
   <p class="a5">link</p>
-  
 
-  <!-- <table>
-    <tr>
-      <td>宽180高40(包含边框)</td>
-      <td>产品</td>
-      <td>产品</td>
-    </tr>
-    <tr>
-      <td>水平间隙30px</td>
-      <td>产品</td>
-      <td>产品</td>
-     </tr>
-    <tr>
-      <td>垂直间隙15px</td>
-      <td>产品</td>
-      <td>产品</td>
-    </tr>
-    <tr>
-      <td>边框宽度3px</td>
-      <td>产品</td>
-      <td>产品</td>
-    </tr>
-  </table> -->
-  
-  
+
+
+
+
   <div class="haha"><p>&copy;版权所有</p><p>本页所有布局均使用块元素</p></div>
 </body>
 </html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body,html {
+      height: 100%;
+    }
+    div {
+      height: 100%;
+      font-size: 0;
+    }
+    section {
+      display: inline-block;
+      font-size: 16px;
+    }
+    .a1,.a2,.a3,.a4 {
+      box-sizing: border-box;
+      height: 100%;
+      width: 100px;
+      
+      border-right: 2px solid;
+      
+    }
+    .a1 {
+      position: fixed;
+      left: 0;
+      top: 0;
+      background-color: beige;
+    }
+    .a2 {
+      width: calc(100% - 300px);
+      height: 100%;
+      position: fixed;
+      left: 100px;
+    }
+    header {
+      
+      height: 80px;
+      border-bottom: 2px solid;
+      box-sizing: border-box;
+    }
+    main {
+      overflow: scroll;
+      height: calc(100% - 80px);
+      
+    }
+    .a3 {
+      position: fixed;
+      right: 100px;
+      top: 0;
+      background-color: bisque;
+    }
+    .a4 {
+      position: fixed;
+      right: 0;
+      top: 0;
+      background-color: grey;
+    }
+
+  </style>
+</head>
+<body>
+  <div>
+    <section class="a1"></section>
+    <section class="a2">
+      <header></header>
+      <main>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas debitis odio odit veniam, rem, quos laudantium, iure voluptatem distinctio nesciunt recusandae soluta ipsam quibusdam vitae unde beatae libero quia similique.
+      Illo doloremque eos iure, aspernatur nostrum sint natus repellendus ipsa debitis ipsum, velit asperiores ducimus veniam. Quaerat dolores totam soluta quae voluptas consequuntur dolore accusamus quibusdam error. Odio, veniam ipsum.
+      Velit ratione in corrupti veniam dolores commodi dolorem nesciunt laboriosam nulla optio et, voluptatibus magnam nostrum minima consequatur placeat culpa dignissimos, sequi, excepturi nobis dolore earum rem magni perspiciatis. Nostrum!
+      Voluptatum vero possimus eius sint id odio ab doloribus reiciendis cupiditate quidem omnis quasi repudiandae vel consectetur iusto quae voluptatibus dicta dolores, asperiores ratione quod? In asperiores qui eos! Sunt!
+      Hic minima quia ipsa nulla nobis pariatur odit enim eius maiores aspernatur, vero, adipisci, facere natus. Voluptates non quas voluptate. Laborum impedit illum mollitia sunt laudantium molestias neque dolorem totam?
+      Accusamus illo error hic officiis consequuntur aliquid corporis provident commodi cupiditate. Facilis minus veritatis illum vero aperiam eveniet rem asperiores illo? Mollitia obcaecati magni sapiente tempore nam tempora quae aliquam?
+      Repellendus accusamus distinctio doloribus totam obcaecati perferendis est excepturi, hic reprehenderit similique sapiente illum? Rerum repudiandae hic atque, cum aliquid nesciunt consequatur molestiae in error ratione magnam labore dolor porro.</main>
+    </section>
+    <section class="a3"></section>
+    <section class="a4"></section>
+  </div>
+</body>
+</html>

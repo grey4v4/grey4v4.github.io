@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body,html {
+      height: 100%;
+    }
+    div {
+      height: 100%;
+    }
+    header {
+      height: 100px;
+      width: 100%;
+      background-color: bisque;
+    }
+    aside {
+      width: 100px;
+      height: calc(100% - 100px);
+      background-color: beige;
+    }
+    main {
+      background-color: aquamarine;
+      height: calc(100% - 100px);
+      width: calc(100% - 100px);
+      position: fixed;
+      right: 0;
+      top: 100px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <header>qqmail</header>
+    <aside>左边</aside>
+    <main>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores tempora enim esse, consequatur illum libero culpa eveniet beatae facere laudantium consectetur expedita iusto! Laudantium, porro. Voluptate optio et magnam eligendi?</main>
+  </div>
+</body>
+</html>
