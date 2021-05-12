@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-image: url(../miao/img/glassy-bg.jpg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    div {
+      background-image: url(../miao/img/glassy-ripple.jpg);
+      background-attachment: fixed;
+      background-clip: border-box;
+      background-repeat: no-repeat;
+      width: 1200px;
+      height:3000px;
+      border: 2px solid rgb(153, 102, 51);
+      margin: 80px auto;
+      background-color: rgb(204,204,204,0.2);
+    }
+    .header1 {
+      width: 1180px;
+      height: 80px;
+      color: rgb(0, 34, 68);
+      font-size: 40px;
+      font-style: 900;
+      letter-spacing: 0.5em;
+      border: 2px solid grey;
+      background-color: rgb(204,204,204,0.5);
+      margin: auto;
+      margin-top: 20px;
+    }
+    main {
+      margin:20px;
+    }
+    .header2 {
+      font: bold 30px "Microsoft yahei";
+      color: white;
+      height: 50px;
+      width: 1200px;
+      background-color: rgb(203,177,150,0.8);
+      border-color: rgb(153, 102, 51);
+      border-style: solid;
+      border-width: 2px 0 2px 0;
+      
+
+    }
+    
+      
+
+
+  </style>
+</head>
+<body>
+  <div>
+    
+    <header class="header1">complexspiral distorted</header>
+    <main>The page you are viewing right now exists to show off what can be accomplished with pure CSS1, and that's all. This variant on complexspiral doesn't even use any CSS2 to accomplish its magic. Remember: as you look this demo over, there is no Javascript here, nor are any PNGs being used, nor do I employ any proprietary extensions to CSS or any other language. It's all done using straight W3C-recommended markup and styling, all validated, plus a total of four (4) images.
+
+      Unfortunately, not every browser supports all of CSS1, and only those browsers which fully and completely support CSS1 will get this right. Despite some claims to the contrary, IE6/Win's rendering of this page is not correct, as it (as well as some other browsers) doesn't correctly support background-attachment: fixed for any element other than the body. That makes it impossible to pull off the intended effect. Other browsers may or may not get the effect right.</main>
+    <header class="header2">Hands-on: Things to Examine</header>
+    <main>Before you start, make sure you're viewing this page in one of the browsers mentioned above. Otherwise the descriptions to follow won't match what you see.
+
+      The first, easiest thing to do is scroll the page vertically. Make sure you scroll all the way to the very end of the page and back. Notice how the various areas with colored backgrounds also appear to distort the background image as if through mottled glass. Try changing the text size and notice how the compositing effect remains consistent. Then make your browser window really narrow and scroll horizontally. Again, everything should remain seamless and consistent.
+      
+      The demonstrated effect, that of having various elements backed with translucent rippled glass of varying hues, is only possible using fixed-attachment backgrounds in CSS. (Okay, maybe it could be done in Flash; I don't know.) I don't think it's even possible with IE's proprietary filters, but even if this effect is possible with filters, I could easily enough devise one that isn't.</main>
+  </div>
+</body>
+</html>
