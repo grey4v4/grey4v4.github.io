@@ -7,29 +7,40 @@
   <title>Document</title>
   <style>
     
-    img {
-      
+    div {
+      display: inline-block;
       width: 300px;
       height: 300px;
-    }
-    .pic1 {
       border: 2px solid rosybrown;
-      object-fit: contain;
+      position: relative;
     }
-    .pic2 {
-      border: 2px solid rosybrown;
-      object-fit: contain; 
-    }
-    .pic3 {
-      border: 2px solid rosybrown;
-      object-fit: contain; 
+    div img {
+      
+      max-width: 100%;
+      max-height: 100%;
+      position: absolute;
+      
+      margin: auto;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      left: 0;
+
+      
+    
+      
     }
   </style>
 </head>
 <body>
-  <img src="../miao/img/nav_logo240_hr.webp" alt="" class="pic1">
-  <img src="../miao/img/CACTUS.jpg" alt="" class="pic2">
-  <img src="../miao/img/喵咪.gif" alt="" class="pic3">
-
+  <div>
+    <img src="../miao/img/喵咪.gif" alt=""  >
+  </div>
+  <div>
+    <img src="../miao/img/CACTUS.jpg" alt="">
+  </div>
+  <div>
+    <img src="../miao/img/nav_logo240_hr.webp" alt=""  >
+  </div>
 </body>
 </html>
