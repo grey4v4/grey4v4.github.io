@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../mi/font-awesome-4.7.0/css/font-awesome.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .shortcut {
+      width: 100%;
+      background-color: #333;
+    }
+    .top {
+      margin: 0 auto;
+      height: 40px;
+      width: 1225px;
+    }
+    .left {
+      float: left;
+    }
+    .right {
+      float: right;
+    }
+    
+    .shopcar {
+      float: right;
+      width: 120px;
+      height: 40px;
+      background-color: #424242;
+      font-size: 12px;
+      color: #b0b0b0;
+      line-height: 40px;
+      text-align: center;
+      position: relative;
+    }
+    .shopcar:hover {
+      background-color: white;
+      color: #ff6700;
+    }
+    .shopcar span {
+      display: none;
+      position: absolute;
+      width: 320px;
+      height: 100px;
+      background-color: white;
+      box-shadow: 0 0 4px 1px #f3f3f3;
+      
+    }
+    .shopcar:hover span {
+      display: block;
+    }
+    .top li {
+      float: left;
+      list-style: none;
+      font-size: 12px;
+      line-height: 40px;
+      margin-right: 7px;
+    }
+    li a {
+      text-decoration: none;
+      color: #b0b0b0;
+    }
+    li a:hover {
+      color: white;
+    }
+    .left a::after,.right a::after {
+      content: '|';
+      margin-left: 7px;
+      color: #424242;
+    }
+    header {
+      width: 100%;
+    }
+    .head {
+      
+      height: 100px;
+      width: 1225px;
+      margin: 0 auto;
+    }
+    .logo {
+      float: left;
+      height: 60px;
+      width: 60px;
+      background-image: url(../mi/logo-mi2.png);
+      background-size: 100%;
+      margin-top: 23px;
+      margin-right: 175px;
+      
+    }
+    .nav li{
+      list-style: none;
+      float: left;
+      margin: 40px 10px;
+    }
+    input {
+      width: 245px;
+      height: 50px;
+      border: 1px solid #e0e0e0;
+      /* outline: 1px solid red; */
+    }
+    button {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #e0e0e0;
+    }
+    form {
+      float: right;
+      line-height: 100px;
+    }
+    .nav li {
+      position: relative;
+    }
+    .nav ul ul {
+      display: none;
+      position: absolute;
+      height: 230px;
+      width: 1225px;
+      margin-top: 40px;
+      border-top: 1px solid #e0e0e0;
+      background-color: white;
+      z-index: 9;
+    }
+    .nav li:hover {
+      color: #ff6700;
+      display: block;
+    }
+    .nav li:hover > ul{
+      display: block;
+    }
+    .nav ul ul li {
+      height: 100px;
+      width: 200px;
+    }
+    .nav li ul:first-child {
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    .pic {
+      width: 100%;
+    }
+    .bighead {
+      width: 1225px;
+      height: 460px;
+      margin: 0 auto;
+    }
+    .photo {
+      width: 1225px;
+      height: 460px;
+      position: relative;
+      overflow: hidden;
+    }
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .navitems {
+      width: 235px;
+      height: 460px;
+      position: absolute;
+      z-index: 9;
+      background-color: rgb(160,160,160);
+    }
+    .navitems ul {
+      padding: 20px 0;
+    }
+    .navitems li {
+      width: 235px;
+      height: 42px;
+      list-style: none;
+      color: white;
+      font-size: 14px;
+      line-height: 40px;
+      padding-left: 30px;
+      box-sizing: border-box;
+    }
+    
+    .navitems li:hover {
+      background-color: #ff6700;
+    }
+    .fa-angle-right {
+      padding-right: 20px;
+    }
+    
+    
+    
+   
+  </style>
+</head>
+<body>
+  <section class="shortcut">
+    <div class="top">
+      <div class="left">
+        <ul>
+          <li><a href="#">小米商城</a></li>
+          <li><a href="#">MIUI</a></li>
+          <li><a href="#">loT</a></li>
+          <li><a href="#">云服务</a></li>
+          <li><a href="#">天星数科</a></li>
+          <li><a href="#">有品</a></li>
+          <li><a href="#">小爱开放平台</a></li>
+          <li><a href="#">企业团购</a></li>
+          <li><a href="#">资质团购</a></li>
+          <li><a href="#">协议规则</a></li>
+          <li><a href="#">下载app</a></li>
+          <li><a href="#">智能生活</a></li>
+          <li><a href="#">Select Location</a></li>
+        </ul>
+      </div>
+      <div class="shopcar fa fa-shopping-cart"> 购物车（0）
+        <span></span>
+      </div>
+      <div class="right">
+        <ul>
+          <li><a href="#">登录</a></li>
+          <li><a href="#">注册</a></li>
+          <li><a href="#">消息通知</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <header>
+    <div class="head">
+      <div class="logo"></div>
+      <div class="nav">
+        <ul>
+          <li>小米手机
+            <ul>
+              <li><a href=""><img src="../mi/85e44ea2405ff8414148bbde7446b137.webp" alt=""></a></li>
+              <li><a href=""></a></li>
+              <li><a href=""></a></li>
+              <li><a href=""></a></li>
+              <li><a href=""></a></li>
+              <li><a href=""></a></li>
+            </ul>
+          </li>
+          <li>Redmi红米</li>
+          <li>电视</li>
+          <li>笔记本</li>
+          <li>家电</li>
+          <li>路由器</li>
+          <li>智能硬件</li>
+          <li>服务</li>
+          <li>社区</li>
+        </ul>
+      </div>
+      <form action="">
+        <input type="search" placeholder="手机">
+        <button class="fa fa-search"></button>
+      </form>
+    </div>
+  </header>
+  <section class="pic">
+    <div class="bighead">
+      <div class="navitems">
+        <ul>
+          <li>手机 电话卡<i class="fa fa-angle-right"></i></li>
+          <li>电视 盒子</li>
+          <li>笔记本 显示器</li>
+          <li>家电 插线板</li>
+          <li>出行 穿戴</li>
+          <li>智能 路由器</li>
+          <li>电源 配件</li>
+          <li>健康 儿童</li>
+          <li>耳机 音箱</li>
+          <li>生活 箱包</li>
+        </ul>
+      </div>
+      <div class="photo">
+        <img src="../mi/175b22f0032803f8bdbd94590c8c6629.webp" alt="" checked>
+        <img src="../mi/2b6933610dfa42adc25e4adf19ac5450.jpg" alt="">
+        <img src="../mi/5084e471aa2554867cd1c9bf333a83e4.webp" alt="">
+        <img src="../mi/9d59257d75e1a6983681ef03ca866132.webp" alt="">
+      </div>
+    </div>
+  </section>
+</body>
+</html>

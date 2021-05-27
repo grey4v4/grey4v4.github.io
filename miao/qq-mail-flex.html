@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body,html {
+      height: 100%;
+    }
+    div {
+      display: flex;
+      height: 100%;
+      flex-flow: row wrap;
+    }
+    header {
+      height: 100px;
+      width: 100%;
+      background-color: teal;
+      
+    }
+    aside {
+      height: calc(100% - 100px);
+      width: 100px;
+      background-color: rosybrown;
+      
+    }
+    main {
+      background-color: mediumpurple;
+      width: calc(100% - 100px);
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <header></header>
+    <aside></aside>
+    <main>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusamus, nostrum explicabo cum mollitia, quia molestiae consequuntur excepturi deleniti aut cupiditate dicta provident dolores. Repudiandae at a quidem eius aspernatur consequuntur!</main>
+  </div>
+</body>
+</html>
