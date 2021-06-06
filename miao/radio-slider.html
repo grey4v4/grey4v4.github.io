@@ -6,63 +6,179 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    
-    div {
-      height: 300px;
-      width: 600px;
+    section {
       position: relative;
-      overflow: hidden;
-      
+      width: 400px;
+      height: 300px;
     }
-      
-    img {
+    section .box {
       width: 100%;
       height: 100%;
+      border: 1px solid red;
       position: absolute;
-      left: 100%;
-      transition: left 1s;
     }
-    input:nth-child(1):checked ~ div img:nth-child(1),
-    input:nth-child(2):checked ~ div img:nth-child(2),
-    input:nth-child(3):checked ~ div img:nth-child(3) {
-    left: 0;
+    section .box div {
+      float: left;
+      width: 25%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
     }
-    label {
-      width: 30px;
-      height: 60px;
-      background-color: teal;
-      display: inline-block;
-      position: absolute;
-      margin-top: 130px;
+    section .box div span {
+      position: absolute;    /*让每一竖的图都在它的左边那一竖，相对于它的父元素定位*/
+      left: -100%;    /*在左边等待进场*/
+      width: 100%;
+      height: 100%;
+      background-size: 400px 100%;    /*设置图片与*/
+      background-repeat: no-repeat;
+      transition: 1s;
+      animation: move 1s;
+    }
+    @keyframes move {
+      0% {
+        left: 0;
+      }
+      100% {
+        left: 100%;
+      }
+    }
+      /* 每个div里的第一个span都显示第一张图 */
+    .box div span:nth-child(1) {
+      background-image: url(../miao/img/6d77d0ea-53d0-4518-b7e9-e53795b4920c_product_W572_H370.jpg);
+    }
+    .box div span:nth-child(2) {
+      background-image: url(../miao/img/1716878f-79a2-4db1-af8c-b9c2039f0b3c_product_W572_H370.jpg);
+    }
+    .box div span:nth-child(3) {
+      background-image: url(../miao/img/b0c76b21-531b-4af4-a607-cf5672c72ded_product_W572_H370.jpg);
+    }
+    .box div span:nth-child(4) {
+      background-image: url(../miao/img/c7c03732-3c86-4308-aea7-df747d4999e8_product_W572_H370.jpg);
+    }
+
+    section .box div:nth-child(1) span {   /*第一个div里的span都显示第一张图*/
+      background-position: 0 0;
+    }
+    section .box div:nth-child(2) span {
+      background-position: -100px 0;
+    }
+    section .box div:nth-child(3) span {
+      background-position: -200px 0;
+    }
+    section .box div:nth-child(4) span {
+      background-position: -300px 0;
+    }
+    input:nth-child(1):checked ~ .box div span:nth-child(1),
+    input:nth-child(2):checked ~ .box div span:nth-child(2),
+    input:nth-child(3):checked ~ .box div span:nth-child(3),
+    input:nth-child(4):checked ~ .box div span:nth-child(4) {
+      left: 0;
+      animation: none;
       z-index: 9;
     }
+    .label {
+      position: relative;
+      display: flex;
+      justify-content: space-evenly;
+      z-index: 77;
+      top: 280px;
+    }
+    .label label {
+      height: 20px;
+      width: 20px;
+      background-color: rgb(111, 201, 201);
+      cursor: pointer;
+    }
+    input:nth-child(1):checked ~ .label label:nth-child(1),
+    input:nth-child(2):checked ~ .label label:nth-child(2),
+    input:nth-child(3):checked ~ .label label:nth-child(3),
+    input:nth-child(4):checked ~ .label label:nth-child(4) {
+      background-color: chartreuse;
+    }
+    input {
+      display: none;
+    }
+    .left-label label,.right-label label {
+      width: 20px;
+      height: 30px;
+      background-color: rosybrown;
+      position: absolute;
+      top: 150px;
+      z-index: 88;
+      text-align: center;
+      line-height: 30px;
+      display: none;
+      cursor: pointer;
+    }
+    .right-label label {
+      right: 0;
+    }
+    input:nth-child(1):checked ~.left-label [for="la4"],
+    input:nth-child(1):checked ~.right-label [for="la2"],
+    input:nth-child(2):checked ~.left-label [for="la1"],
+    input:nth-child(2):checked ~.right-label [for="la3"],
+    input:nth-child(3):checked ~.left-label [for="la2"],
+    input:nth-child(3):checked ~.right-label [for="la4"],
+    input:nth-child(4):checked ~.left-label [for="la3"],
+    input:nth-child(4):checked ~.right-label [for="la1"] {
+      display: block;
+    }
+
     
-    
+
   </style>
 </head>
 <body>
   <section>
-    <input type="radio" name="a" id="aa" checked>
-    <input type="radio" name="a" id="aaa">
-    <input type="radio" name="a" id="aaaa">
-    <label for="aa"></label>
-    
-    <div>
-      
-        
-        <img id="a1" src="img/270231.jpg" alt="">
-      
-        <!-- <label for="aaa"></label> -->
-        <img id="a2" src="img/CACTUS.jpg" alt="">
-      
-        <!-- <label for="aaaa"></label> -->
-        <img id="a3" src="img/500527149.jpg" alt="">
-      
+    <input type="radio" name="one" id="la1" checked>
+    <input type="radio" name="one" id="la2">
+    <input type="radio" name="one" id="la3">
+    <input type="radio" name="one" id="la4">
+    <div class="left-label">
+      <label for="la1">1</label>
+      <label for="la2">2</label>
+      <label for="la3">3</label>
+      <label for="la4">4</label>
     </div>
-</section>
+    <div class="right-label">
+      <label for="la1">1</label>
+      <label for="la2">2</label>
+      <label for="la3">3</label>
+      <label for="la4">4</label>
+    </div>
+
+    <div class="label">
+      <label for="la1"></label>
+      <label for="la2"></label>
+      <label for="la3"></label>
+      <label for="la4"></label>
+    </div>
+    <div class="box">
+      <div>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </section>            
 </body>
 </html>

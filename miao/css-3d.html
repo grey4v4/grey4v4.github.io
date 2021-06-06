@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    section {
+      perspective: 800px;
+	    /* perspective-origin: 50% 100px; */
+      margin: 200px 500px;
+     
+    }
+    .cube {
+      position: relative;
+      transform-style: preserve-3d;
+      width: 200px;
+    }
+    .cube div{
+      position: absolute;
+      
+      height: 200px;
+      width: 200px;
+    }
+    .front {
+      background-color: teal;
+      transform: translateZ(100px);
+
+    }
+    .left {
+      background-color: rosybrown;
+      transform: rotateY(90deg) translateX(-100px);
+      transform-origin: center left;
+    }
+    .right {
+      background-color: tomato;
+      transform: rotateY(-90deg) translateX(100px);
+      transform-origin: top right;
+     
+    }
+    .top {
+      background-color: goldenrod;
+      transform: rotateX(-90deg) translateY(-100px);
+      transform-origin: top center;
+    }
+    .bottom {
+      background-color: darkslateblue;
+      transform: rotateX(90deg) translateY(100px);
+      transform-origin: bottom center;
+      
+    }
+    .back {
+      background-color: lightskyblue;
+      transform: translateZ(-100px) rotateY(180deg);
+    }
+    
+    @keyframes move {
+	    from { 
+        transform: rotateY(0); 
+      }
+	    to { 
+        transform: rotateY(360deg); 
+      }
+    }
+
+    .cube {
+	    animation: move 5s infinite linear;
+    }
+    
+  </style>
+</head>
+<body>
+  <section>
+    <div class="cube">
+      <div class="front">正</div>
+      <div class="left">左</div>
+      <div class="right">右</div>
+      <div class="top">上</div>
+      <div class="bottom">下</div>
+      <div class="back">后</div>
+    </div>
+  </section>
+</body>
+</html>

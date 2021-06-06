@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .out {
+      margin: 100px 200px;
+    }
+    .circle {
+      position: relative;
+      height: 500px;
+      width: 500px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 10px rgb(241, 241, 241);
+    }
+    [class^="time"] {
+      font-size: 40px;
+      position: absolute;
+    }
+    .time12 {
+      transform: translate(230px);
+    }
+    .time6 {
+      transform: translate(245px,445px);
+    }
+    .time9 {
+      transform: translate(10px,220px);
+    }
+    .time3 {
+      transform: translate(470px,220px)
+    }
+    .time11 {
+      transform: translate(110px,45px);
+    }
+    .time10 {
+      transform: translate(35px,125px);
+    }
+    .time1 {
+      transform: translate(370px,45px);
+    }
+    .time2 {
+      transform: translate(435px,125px);
+    }
+    .time8 {
+      transform: translate(35px,315px);
+    }
+    .time7 {
+      transform: translate(110px,400px);
+    }
+    .time4 {
+      transform: translate(435px,315px);
+    }
+    .time5 {
+      transform: translate(370px,400px);
+    }
+    .hour {
+      position: absolute;
+      width: 10px;
+      height: 150px;
+      border-radius: 40px 40px 0 0;
+      background-color: #333;
+      top: 100px;
+      left: 245px;
+      transform-origin: 5px 150px;
+      animation: hour-move 43200s infinite linear;
+    }
+    @keyframes hour-move {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .minute {
+      position: absolute;
+      width: 6px;
+      height: 200px;
+      border-radius: 40px 40px 0 0;
+      background-color: #333;
+      top: 50px;
+      left: 247px;
+      transform-origin: 3px 200px;
+      animation: minute-move 3600s infinite linear;
+    }
+    @keyframes minute-move {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    .second {
+      position: absolute;
+      width: 4px;
+      height: 250px;
+      border-radius: 40px 40px 0 0;
+      background-color: rgb(226, 64, 64);
+      top: 20px;
+      left: 248px;
+      transform-origin: 2px 230px;
+      animation: minute-move 60s infinite steps(60);
+    } 
+    @keyframes second-move {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    
+
+  </style>
+</head>
+<body>
+  <div class="out">
+    <div class="circle">
+
+      <div class="time1">1</div>
+      <div class="time2">2</div>
+      <div class="time3">3</div>
+      <div class="time4">4</div>
+      <div class="time5">5</div>
+      <div class="time6">6</div>
+      <div class="time7">7</div>
+      <div class="time8">8</div>
+      <div class="time9">9</div>
+      <div class="time10">10</div>
+      <div class="time11">11</div>
+      <div class="time12">12</div>
+
+      <div class="hour"></div>
+      <div class="minute"></div>
+      <div class="second">
+        <div class="sceond-1"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
