@@ -83,6 +83,9 @@ var grey4v4 = function () {
   
   //-------------------------------------------------
     function reduce(array, f, initial) {
+      if (initial == undefined) {
+        initial = 0
+      }
       var result = initial
       for (var i = 0; i < array.length; i++) {
         result = f(result, array[i])
