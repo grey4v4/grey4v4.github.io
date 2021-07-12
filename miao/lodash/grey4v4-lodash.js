@@ -27,6 +27,7 @@ var grey4v4 = function () {
       }
     }
     return result
+  }
 
   //-------------------------------------
     function concat(array, values) {
@@ -40,8 +41,24 @@ var grey4v4 = function () {
       return result
     }
 
+  //---------------------------------------
+    function uniq(array) {
+      var result = []
+      for (var i = 0, l = array.length; i < l; i++) {
+        for (var j = i + 1; j < l; j++) 
+          if (array[i] === array[j])
+            j = ++i
+          result.push(array[i])
+      }
+      return result
+    }
 
-
+  //----------------------------------------------
+    function forEach(array, f) {
+      for (var i = 0; i < array.length; i++) {
+        f(array[i], i)
+      }
+    }
 
   
 
@@ -50,5 +67,7 @@ var grey4v4 = function () {
     chunk: chunk,
     compact: compact,
     concat: concat,
+    uniq: uniq,
+    forEach: forEach,
   }
 }()
