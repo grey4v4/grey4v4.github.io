@@ -71,10 +71,10 @@ var grey4v4 = function () {
   }
   
   //------------------------------------------------
-    function filter(array, test) {
+    function filter(array, f) {
       var result = []
       for (var i = 0; i < array.length; i++) {
-        if (test(array[i], i)) {    //为true通过测试
+        if (f(array[i], i)) {    //为true通过测试
           result.push(array[i])
         }
       }
@@ -108,6 +108,12 @@ var grey4v4 = function () {
   
   //-------------------------------------------------
     function fill(array, value, start, end = array.length) {
+      if (start == undefined) {
+        start = 0
+      }
+      if (end == undefined) {
+        end = array.length
+      }
       for (var i = start; i < end; i++) {
         array[i] = value
       }
@@ -128,7 +134,7 @@ var grey4v4 = function () {
     }
   //-------------------------------------------------
     function isNaN(value) {
-      if (value == true || value == null) {
+      if (value == true || value == null || value) {
         return false
       } else {
         return true
