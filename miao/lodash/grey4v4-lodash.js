@@ -74,7 +74,7 @@ var grey4v4 = function () {
     function filter(array, f) {
       var result = []
       for (var i = 0; i < array.length; i++) {
-        if (f(array[i], i)) {    //为true通过测试
+        if (f(array[i])) {    //为true通过测试
           result.push(array[i])
         }
       }
@@ -96,7 +96,7 @@ var grey4v4 = function () {
   //-------------------------------------------------
     function every(array, f) {
       for (var i = 0; i < array.length; i++) {
-        if (f(array[i])) {
+        if (f(array[i]) == true) {
           return true
         } else {
           return false
@@ -105,8 +105,13 @@ var grey4v4 = function () {
     }
   
   //-------------------------------------------------
-    function some() {
-      
+    function some(collection, predicate=_.identity) {
+      for (let i = 0; i < collection.length; i++) {
+        if (typeof (collection[i] == predicate)) {
+          return true
+        }
+        return false
+      }
     }
   
   //-------------------------------------------------
@@ -162,7 +167,101 @@ var grey4v4 = function () {
       return result
     }
   
+  //----------------------------------------------
+  function indexOf(array, value, fromIndex = 0) {
+    for (let i = fromIndex; i < array.length; i++) {
+      if (array[i] == value) {
+        return i
+      }
+      return -1
+    }
+  }
+  //----------------------------------------------
+  function lastIndexOf(array, value, formIndex = array.length - 1) {
+    for (let i = formIndex; i <= 0; i--) {
+      if (array[i] == value) {
+        return i
+      }
+      return -1
+    }
+  }
+  //----------------------------------------------
+  function slice(array, start = 0, end = array.length) {
+    for (let i = start; i < end; i++) {
+      return array[i]
+    }
+  }
+  //----------------------------------------------
+  function join(array, separator = ',') {
+    let result = []
+    for (let i = 0; i < array.length; i++) {
+      result.push(array[i], separator)
+    }
+    return result
+  }
+  //-----------------------------------------
+  function bind(func, thisArg, partials) {
+    return func(...args) {
+      return func(thisArg, partials, ...args)
+    }
+  }
+  //--------------------------------------
+  function lt(value, other) {
+    if (value < other) {
+      return true
+    }
+    return false
+  }
+  //---------------------------------
+  function lte(value, other) {
+    if (value <= other) {
+      return true
+    }
+    return false
+  }
+  //----------------------------------------
+
+  function add(augend, addend) {
+    return augend + addend
+  }
+
+  //-----------------------------------
+  function devide(ividend, divisor) {
+    return ividend / divisor
+  }
+
+  //-----------------------------
+  function max(array) {
+    let max = -Infinity
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] > max) {
+        max = array[i]
+      }
+    }
+    return max
+  }
+  //----------------------------------
+  function min(array) {
+    let min = Infinity
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] < min) {
+        min = array[i]
+      }
+    }
+    return min
+  }
+
+  //-----------------------------------
+  function multiply(multiplier, multiplicand) {
+    return multiplier * multiplicand
+  }
+  //---------------------------------
+  function subtract(minuend, subtrahend) {
+    return minuend - subtrahend
+  }
   
+
+
   return {
     chunk: chunk,
     compact: compact,
@@ -179,5 +278,18 @@ var grey4v4 = function () {
     isNaN: isNaN,
     sum: sum,
     reverse: reverse,
+    indexOf: indexOf,
+    lastIndexOf: lastIndexOf,
+    slice: slice,
+    join: join,
+    bind: bind,
+    lt: lt,
+    lte: lte,
+    add: add,
+    devide: devide,
+    max: max,
+    min: min,
+    multiply: multiply,
+    subtract: subtract,
   }
 }()
