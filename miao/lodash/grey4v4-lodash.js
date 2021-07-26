@@ -200,11 +200,11 @@ var grey4v4 = function () {
     return result
   }
   //-----------------------------------------
-  function bind(func, thisArg, partials) {
-    return func(...args) {
-      return func(thisArg, partials, ...args)
-    }
-  }
+  // function bind(func, thisArg, partials) {
+  //   return func(...args) {
+  //     return func(thisArg, partials, ...args)
+  //   }
+  // }
   //--------------------------------------
   function lt(value, other) {
     if (value < other) {
@@ -259,7 +259,16 @@ var grey4v4 = function () {
   function subtract(minuend, subtrahend) {
     return minuend - subtrahend
   }
-  
+  //---------------------------------
+  function inRange(number, start, end) {
+    
+    for (let i = start; i < end; i++) {
+      if (number >= start && number <= end) {
+        return true
+      }
+      return false
+    }
+  }
 
 
   return {
@@ -282,7 +291,6 @@ var grey4v4 = function () {
     lastIndexOf: lastIndexOf,
     slice: slice,
     join: join,
-    bind: bind,
     lt: lt,
     lte: lte,
     add: add,
@@ -291,5 +299,6 @@ var grey4v4 = function () {
     min: min,
     multiply: multiply,
     subtract: subtract,
+    inRange: inRange,
   }
 }()
