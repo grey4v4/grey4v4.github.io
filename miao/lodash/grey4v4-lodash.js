@@ -173,8 +173,8 @@ var grey4v4 = function () {
       if (array[i] == value) {
         return i
       }
-      return -1
     }
+    return -1
   }
   //----------------------------------------------
   function lastIndexOf(array, value, formIndex = array.length - 1) {
@@ -182,8 +182,8 @@ var grey4v4 = function () {
       if (array[i] == value) {
         return i
       }
-      return -1
     }
+    return -1
   }
   //----------------------------------------------
   function slice(array, start = 0, end = array.length) {
@@ -232,6 +232,9 @@ var grey4v4 = function () {
 
   //-----------------------------
   function max(array) {
+    if (array.length == 0) {
+      return undefined
+    }
     let max = -Infinity
     for (let i = 0; i < array.length; i++) {
       if (array[i] > max) {
@@ -242,6 +245,9 @@ var grey4v4 = function () {
   }
   //----------------------------------
   function min(array) {
+    if (array.length == 0) {
+      return undefined
+    }
     let min = Infinity
     for (let i = 0; i < array.length; i++) {
       if (array[i] < min) {
@@ -268,6 +274,54 @@ var grey4v4 = function () {
       }
       return false
     }
+  }
+  //---------------------------------
+  function drop(array, n) {
+    if (n == undefined) {
+      n = 1
+    }
+    for (let i = 0; i < n; i++) {
+      array.shift(array[i])
+    }
+    return array
+  }
+  //---------------------------------
+  function dropRight(array, n) {
+    if (n == undefined) {
+      n = 1
+    }
+    for (let i = n; i > 0; i--) {
+      array.pop(array[i])
+    }
+    return array
+  }
+  //---------------------------------
+  function initial(array) {
+    array.pop()
+    return array
+  }
+  //---------------------------------
+  function last(array) {
+    return array[array.length - 1]
+  }
+  //---------------------------------
+
+  function head(array) {
+    if (array == undefined) {
+      return undefined
+    }
+    return array[0]
+  }
+  //---------------------------------
+  function nth(array, n) {
+    if (n > 0) {
+      for (let i = 0; i < array.length; i++) {
+        if (i == n) {
+          return array[i]
+        }
+      }
+    }
+    
   }
 
 
@@ -300,5 +354,11 @@ var grey4v4 = function () {
     multiply: multiply,
     subtract: subtract,
     inRange: inRange,
+    drop: drop,
+    dropRight: dropRight,
+    initial: initial,
+    last: last,
+    head: head,
+    nth: nth,
   }
 }()
