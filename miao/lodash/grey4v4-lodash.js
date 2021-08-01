@@ -62,20 +62,61 @@ var grey4v4 = function () {
   }
   
   //---------------------------------------------------
-    function map(array, mapper) {
+  
+  function property(prop) {
+    return function (obj) {
+      return obj[prop]
+    }
+  }
+  function matches(src) {
+    return function(obj) {
+      for (var key in src) {
+        if (src[key] !== obj[key]) {
+            return false
+          }
+        }
+        return true
+      }
+    }
+    function matchesProperty(ary) {
+      var key = ary[0]
+      var val = ary[1]
+      return function (obj) {
+        return obj[key] == val
+      }
+    }
+  
+    function iteratee(maybePredicate) {
+      if (typeof maybePredicate == 'function') {
+        return maybePredicate
+      }
+      if (typeof maybePredicate == 'string') {
+        return property(mapper)
+      }
+      if (Array.isArray(maybePredicate)) {
+        return matchesProperty(...maybePredicate)
+      }
+      if (typeof maybePredicate == 'object') {
+        return matches(...maybePredicate)
+      }
+    }
+  //---------------------------
+    function map(collection, mapper) {
+      mapper = iteratee(mapper)
       var result = []
-      for (var i = 0; i < array.length; i++) {
-        result.push(mapper(array[i], i))
+      for (var key in collection) {
+        result.push(mapper(collection[i], i, collection))
       }
       return result
-  }
+    }
   
   //------------------------------------------------
-    function filter(array, f) {
+    function filter(collection, predicate) {
+      predicate = iteratee(predicate)
       var result = []
-      for (var i = 0; i < array.length; i++) {
-        if (f(array[i])) {    //为true通过测试
-          result.push(array[i])
+      for (var key in collection) {
+        if (predicate(collection[i], i, collection)) {    //为true通过测试
+          result.push(collection[i])
         }
       }
       return result
@@ -314,15 +355,66 @@ var grey4v4 = function () {
   }
   //---------------------------------
   function nth(array, n) {
-    if (n > 0) {
-      for (let i = 0; i < array.length; i++) {
-        if (i == n) {
-          return array[i]
+    if (n >= 0) {
+      return array[n]
+    } else {
+      return array[array.length - Math.abs(n)]
+    }
+  }
+
+  //---------------------------------
+
+  function tail(array) {
+    array.shift()
+    return array
+  }
+  //---------------------------------
+  function get(object, path, defalutVal) {
+    for (var i = 0; i < path.length; i++) {
+      if (object == undefined) {
+        return defalutVal
+      } else {
+        object = object[path[i]]
+      }
+    }
+  }
+  //---------------------------------
+  function toPath(value) {
+    if (Array.isArray(value)) {
+      return value
+    } else {
+      return value.split('.')
+    }
+  }
+
+  //---------------------------------
+  function isMatch(object, source) {
+    if (typeof object !== 'object' || typeof source !== 'object') {
+      return false
+    }
+    for (var key in object) {
+      if (source[key] && typeof source[key] !== 'object') {
+        if (object[key] !== source[key]) {
+          return false
+        }
+      } else {
+        if (!isMatch(object[key], source[key])) {
+          return false
         }
       }
     }
-    
+    return true
   }
+  //-------------------------------------
+    function pull(array, value) {
+      for (var i = 0; i < array.length; i++) {
+        if (array[i] == value) {
+          array.shift(array[i])
+        }
+      }
+      return array
+    }
+
 
 
   return {
@@ -331,6 +423,7 @@ var grey4v4 = function () {
     concat: concat,
     uniq: uniq,
     forEach: forEach,
+    iteratee:iteratee,
     map: map,
     filter: filter,
     reduce: reduce,
@@ -360,5 +453,10 @@ var grey4v4 = function () {
     last: last,
     head: head,
     nth: nth,
+    tail: tail,
+    get: get,
+    toPath: toPath,
+    isMatch: isMatch,
+    pull: pull,
   }
 }()

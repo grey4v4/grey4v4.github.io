@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    input#reg, textarea {
+      width: 400px;
+    }
+    em {
+      background-color: rgb(156, 197, 110);
+      font-style: normal;
+    }
+    em:empty {
+      border-right: 1px dotted red;
+      background-color: transparent;
+    }
+    em:nth-of-type(even) {
+      background-color: rgb(207, 233, 177);
+    }
+    section {
+      width: 400px;
+      position: relative;
+      display: block;
+      overflow: hidden;
+    }
+    section pre,
+    section textarea {
+      line-height: 1.5em;
+      display: block;
+      height: 300px;
+      width: 400px;
+      margin: 0;
+      padding: 5px;
+      border: 2px solid;
+      box-sizing: border-box;
+      font-size: 16px;
+      white-space: pre-wrap;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      word-break: break-all;
+    }
+    section pre {
+      color: transparent;
+      position: absolute;
+      top: 0;
+    }
+    section textarea {
+      position: relative;
+      z-index: 9;
+      background-color: transparent;
+    }
+    p#regError {
+      height: 1em;
+      margin: 0;
+      color: red;
+    }
+    
+  </style>
+</head>
+<body>
+  <div>
+    请输入regexp：
+    <label><input type="checkbox" onclick="run()" id="insensitive">i</label>
+    <label><input type="checkbox" checked onclick="run()" id="global">g</label>
+    <label><input type="checkbox" onclick="run()" id="multiline">m</label>
+    <br>
+    <input type="text" id="reg" onkeydown="run()" value="zx."> <br>  
+    <!-- onkeydown没延迟，up有延迟 -->
+    <p id="regError">
+    
+    </p>
+    请输入：<br>
+    <section>
+      <pre id="result" onscroll="setScroll2()">
+       
+      </pre>
+      <textarea onscroll="setScroll()" id="strInput" onkeydown="run()" cols="30" rows="10">aaazzzxcxxczxzc
+      zxzcxczczxcckkkkk</textarea> <br>
+    </section>
+  </div>
+  <script>
+    function setScroll() {
+      var scrollTop = strInput.scrollTop
+      result.style.top = -strInput.scrollTop + 'px'
+    }
+    function setScroll2() {
+      var scrollTop = strInput.scrollTop
+      result.style.top = 194 + 'px'
+    }
+    
+    strInput.oninput = function() {
+      result.innerText = this.value
+    }
+    function run() {
+      var regSource = reg.value  
+      var falg = getCheck()   //输入的regexp的内容
+      if (regSource == '') {   //输入框为空时
+        result.innerHTML = ''
+        regError.innerHTML = "请输入RegExp" 
+        return
+      }
+      try {
+        var re = new RegExp(regSource, falg)
+        regError.innerHTML = ''
+      } catch(e) {
+        console.log(e)
+        regError.innerHTML = e.message
+        result.innerHTML = '' 
+        return 
+      }
+      console.log(re)
+      var str = strInput.value  //输入的textarea的内容
+      var match
+      if (re.global) {  //有g标
+        var resultHTML = ''
+        var lastIndex = re.lastIndex  //lastIndex刚开始等于re的lastIndex
+        while (match = re.exec(str)) {
+          resultHTML += str.slice(lastIndex, match.index)
+          resultHTML += '<em>' + match[0] + '</em>' //匹配到的第0项
+          lastIndex = re.lastIndex  //匹配完成后等于上次匹配完的位置
+          if (match[0] == '') {
+            re.lastIndex++
+          }
+        }
+        resultHTML += str.slice(lastIndex)  //上一次匹配成功的后面位置的下标，就是新键入的内容可同步
+        result.innerHTML = resultHTML 
+
+      } else {   //没有global时
+        var resultHTML = ''
+        match = re.exec(str)
+        resultHTML += str.slice(0, match.index)   //匹配到的前面的东西
+        resultHTML += '<em>' + match[0] + '</em>'  //匹配到的
+        resultHTML += str.slice(match[0].length + match.index)   //匹配到的后面的
+      }
+    }
+    run()
+    function getCheck() {    //是否被check
+      var c = ''
+      if (insensitive.checked) {     //被checked就在后面加上i
+         c += 'i'
+      }
+      if (global.checked) {
+         c += 'g'
+      }
+      if (multiline.checked) {
+         c += 'm'
+      }
+      return c
+    }
+  </script>
+</body>
+</html>
