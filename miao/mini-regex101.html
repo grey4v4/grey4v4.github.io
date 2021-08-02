@@ -39,13 +39,14 @@
       font-size: 16px;
       white-space: pre-wrap;
       overflow-y: scroll;
-      overflow-x: hidden;
+      /* overflow-x: hidden; */
       word-break: break-all;
     }
     section pre {
       color: transparent;
       position: absolute;
       top: 0;
+      /* padding-right:  */
     }
     section textarea {
       position: relative;
@@ -74,7 +75,7 @@
     </p>
     请输入：<br>
     <section>
-      <pre id="result" onscroll="setScroll2()">
+      <pre id="result" >
        
       </pre>
       <textarea onscroll="setScroll()" id="strInput" onkeydown="run()" cols="30" rows="10">aaazzzxcxxczxzc
@@ -86,14 +87,15 @@
       var scrollTop = strInput.scrollTop
       result.style.top = -strInput.scrollTop + 'px'
     }
-    function setScroll2() {
-      var scrollTop = strInput.scrollTop
-      result.style.top = 194 + 'px'
+
+    strInput.onscroll = function() {      //使超出一页的匹配也折行
+      result.scrollTop = this.scrollTop
     }
     
-    strInput.oninput = function() {
+    strInput.oninput = function() {     //使超出一页的匹配也折行
       result.innerText = this.value
     }
+
     function run() {
       var regSource = reg.value  
       var falg = getCheck()   //输入的regexp的内容
