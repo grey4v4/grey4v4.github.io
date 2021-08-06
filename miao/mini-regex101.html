@@ -68,7 +68,7 @@
     <label><input type="checkbox" checked onclick="run()" id="global">g</label>
     <label><input type="checkbox" onclick="run()" id="multiline">m</label>
     <br>
-    <input type="text" id="reg" onkeydown="run()" value="zx."> <br>  
+    <input type="text" id="reg" oninput="run()" value="zx."> <br>  
     <!-- onkeydown没延迟，up有延迟 -->
     <p id="regError">
     
@@ -78,7 +78,7 @@
       <pre id="result" >
        
       </pre>
-      <textarea onscroll="setScroll()" id="strInput" onkeydown="run()" cols="30" rows="10">aaazzzxcxxczxzc
+      <textarea onscroll="setScroll()" id="strInput" oninput="run()" cols="30" rows="10">aaazzzxcxxczxzc
       zxzcxczczxcckkkkk</textarea> <br>
     </section>
   </div>

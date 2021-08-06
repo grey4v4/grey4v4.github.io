@@ -219,7 +219,7 @@ var grey4v4 = function () {
   }
   //----------------------------------------------
   function lastIndexOf(array, value, formIndex = array.length - 1) {
-    for (let i = formIndex; i <= 0; i--) {
+    for (let i = formIndex; i >= 0; i--) {
       if (array[i] == value) {
         return i
       }
@@ -413,8 +413,63 @@ var grey4v4 = function () {
         }
       }
       return array
+  }
+  
+  //-------------------------------------
+  function sortedIndex(array, value) {
+    if (array == []) {
+      return 0
     }
-
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] >= value) {
+        return i
+      } else {
+        return array.length
+      }
+    }
+  }
+  //-------------------------------------
+  function sortedUniq(array) {
+    let result = []
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] !== array[i + 1]) {
+        result.push(array[i])
+      }
+    }
+    return result
+  }
+  //-------------------------------------
+  function take(array, n) {
+    if (n == undefined) {
+      return array[0]
+    }
+    if (n == 0) {
+      return []
+    }
+    if (n > array.length) {
+      return array
+    }
+    let result = []
+    for (let i = 0; i < n; i++) {
+      result.push(array[i])
+    }
+    return result
+  }
+  //-------------------------------------
+  function size(collection) {
+    if (typeof collection == 'Array') {
+      return collection.length
+    }
+    if (typeof collection == 'Object') {
+      // var obj = Object.keys(collection)
+      // return obj.length
+      var keys = []
+      for (key in collection) {
+        keys.push(key)
+      }
+      return keys.length
+    }
+  }
 
 
   return {
@@ -458,5 +513,8 @@ var grey4v4 = function () {
     toPath: toPath,
     isMatch: isMatch,
     pull: pull,
+    sortedIndex: sortedIndex,
+    sortedUniq: sortedUniq,
+    take: take,
   }
 }()
