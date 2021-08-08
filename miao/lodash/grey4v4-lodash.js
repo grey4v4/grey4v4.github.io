@@ -457,10 +457,10 @@ var grey4v4 = function () {
   }
   //-------------------------------------
   function size(collection) {
-    if (typeof collection == 'Array') {
+    if (typeof collection == 'number' || typeof collection == 'string') {
       return collection.length
     }
-    if (typeof collection == 'Object') {
+    if (typeof collection == 'object') {
       // var obj = Object.keys(collection)
       // return obj.length
       var keys = []
@@ -471,6 +471,231 @@ var grey4v4 = function () {
     }
   }
 
+  //-------------------------------------
+  function gt(value, other) {
+    if (value > other) {
+      return true
+    }
+    return false
+  }
+  //-------------------------------------
+  function gte(value, other) {
+    if (value >= other) {
+      return true
+    }
+    return flase
+  }
+//-------------------------------------
+  function isArgument(value) {
+    return Object.prototype.toString.call(value) === '[object Function]'
+  }
+  
+  //-------------------------------------
+  function isArray(value) {
+    return Array.isArray(value)
+  }
+
+//-------------------------------------
+  function isArrayLike(value) {
+    if (!isArgument(value)) {
+      return true
+    }
+    return false
+  }
+//-------------------------------------
+  function isBoolean(value) {
+    if (value == true || value == false) {
+      return true
+    }
+    return false
+  }
+
+//-------------------------------------
+  function isFinite(value) {
+    if (typeof value == 'number' && Number.MAX_VALUE >= value && Number.MIN_VALUE <= value) {
+      return true
+    }
+    return false
+  }
+
+  //-------------------------------------
+  function isFunction(value) {
+    if (value == '_' || value == '$') {
+      return true
+    } else {
+      return Object.prototype.toString.call(value) === '[object Function]'
+    }
+  }
+
+  //-------------------------------------
+  function isInteger(value) {
+    if (typeof value == 'number' && Math.abs(value % 1) == 0 && Number.MAX_VALUE > value && Number.MIN_VALUE < value) {
+      return true
+    }
+    return false
+  }
+  //-------------------------------------
+  function isNumber(value) {
+    if (value == Infinity || value == -Infinity || value == NaN) {
+      return true
+    }
+    return isFinite(value)
+  }
+
+  //-------------------------------------
+  function parseJson(str) {
+    var i = 0
+    return parseValue()
+
+    function parseValue() {
+      var c = str[i]
+      if (c == '[') {
+        return parseArray()
+      }
+      if (c == '{') {
+        return parseObject()
+      }
+      if (c == '"') {
+        return parseString()
+      }
+      if (c == 't') {
+        return parseTrue()
+      }
+      if (c == 'f') {
+        return parseFalse()
+      }
+      if (c == 'n') {
+        return parseNull()
+      }
+      return parseNumber()
+    }
+
+    function parseArray() {
+      i++
+      var result = []
+      while (str[i] !== ']') {
+        var val = parseValue()
+        result.push(val)
+        if (str[i] == ',') {
+          i++
+        }
+      }
+      i++
+      return result
+    }
+    function parseObject() {
+      i++
+      var result = {}
+      while (str[i] !== '}') {
+        var key = parseString()
+        i++  //冒号
+        var val = parseValue()
+        result[key] = val
+        if (str[i] == ',') {
+          i++
+        }
+      }
+      i++
+      return result
+    }
+    function parseString() {
+      i++
+      var result = ''
+      while (str[i] !== '"') {
+        result += str[i++]
+      }
+      i++
+      return result
+    }
+    function parseTrue() {
+      if (i += 4) {
+        return true
+      }
+    }
+    function parseFalse() {
+      if (i += 5) {
+        return false
+      }
+    }
+    function parseNull() {
+      if (i += 4) {
+        return null
+      }
+    }
+    function parseNumber() {
+      var numStr = ''
+      while (str[i] <= 9 && str[i] >= 0) {
+        numStr += str[i++]
+      }
+      return Number(numStr)
+    }
+  }
+
+  //-------------------------------
+  function isSafeInteger(value) {
+    if (typeof value == 'number' && value >= Number.MIN_SAFE_INTEGER && value <= Number.MAX_SAFE_INTEGER && value % 1 == 0) {
+      return true
+    }
+    return false
+  }
+  //-------------------------------
+  function isString(value) {
+    return typeof value == 'string'
+  }
+  //-------------------------------
+  function toArray(value) {
+    var result = []
+    if (typeof value == 'object') {
+      for (i in value) {
+        result.push(value[i])
+      }
+    }
+    if (typeof value == 'string') {
+      for (let i = 0; i < value.length; i++) {
+        result.push(value[i])
+      }
+    }
+    if (value == null) {
+      return result
+    }
+    return result
+    
+  }
+
+  //------------------------------------------
+  function mean(array) {
+    let sum = 0
+    for (let i = 0; i < array.length; i++) {
+      sum += array[i]
+    }
+    return sum / array.length
+  }
+
+  //------------------------------------------
+  function clamp(number, lower, upper) {
+
+  }
+
+  //-----------------------------------------------
+  function capitalize(str) {
+    let result = []
+    result.push(str[0].toUpperCase())
+    for (let i = 1; i < str.length; i++) {
+      result.push(str[i].toLowerCase)
+    }
+    return result.join('')
+  }
+  //------------------------------------------
+  function endWith(str, target, position) {
+    if (position == undefined) {
+      if (str[str.length - 1] == target) {
+        return true
+      }
+    } else if (str[position - 1] == target) {
+      return true
+    }
+    return false
+  }
 
   return {
     chunk: chunk,
@@ -516,5 +741,23 @@ var grey4v4 = function () {
     sortedIndex: sortedIndex,
     sortedUniq: sortedUniq,
     take: take,
+    size: size,
+    gt: gt,
+    gte: gte,
+    isArray: isArray,
+    isArrayLike: isArrayLike,
+    isBoolean: isBoolean,
+    isFinite: isFinite,
+    isFunction: isFunction,
+    isInteger: isInteger,
+    isNumber: isNumber,
+    parseJson: parseJson,
+    isSafeInteger: isSafeInteger,
+    isString: isString,
+    toArray: toArray,
+    mean: mean,
+    clamp: clamp,
+    capitalize: capitalize,
+    endWith: endWith,
   }
 }()

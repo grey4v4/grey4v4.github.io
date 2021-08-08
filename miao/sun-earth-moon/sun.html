@@ -6,9 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    body {
+      background-color: rgb(27, 27, 27);
+    }
     .sun {
       height: 200px;
       width: 200px;
+    }
+    .earth {
+      height: 50px;
+      width: 50px;
+    }
+    .moon {
+      height: 20px;
+      width: 20px;
     }
   </style>
 </head>
@@ -16,10 +27,14 @@
   
   <p style="text-align: center;margin-top: 300px;">
     <img class="sun" src="sun.png" style="position: relative;" alt="">
+    <img class="earth" src="earth.png" style="position: absolute;" alt="">
+    <img class="moon" src="moon.png" alt="">
   </p>
 
   <script>
     var sun = document.querySelector('img.sun')
+    // var earth = documnet.querySelector('img.earth')
+    // var moon = document.querySelector('img.moon')
     var angle = 0
     var lastTime = null
     function animate(time) {
