@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div#tblr {
+      width: 30px;
+      height: 30px;
+      background-color: cadetblue;
+      position: relative;
+    }
+    div#wasd {
+      width: 30px;
+      height: 30px;
+      background-color: rosybrown;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div id="tblr" style="top: 100px; left: 150px"></div>
+  <div id="wasd" style="top: 70px; left: 80px;"></div>
+  <script>
+    var div1 = document.querySelector('div#tblr')
+    var div2 = document.querySelector('div#wasd')
+    var vx = 0
+    var vy = 0
+    var vx2 = 0
+    var vy2 = 0
+    var dPress = false
+    var aPress = false
+    var wPress = false
+    var sPress = false
+    var leftPress = false
+    var rightPress = false
+    var upPress = false
+    var downPress = false
+
+    document.addEventListener('keydown', function(e){
+      console.log(e)
+      if (e.key == 'ArrowRight') {
+        vx = 1
+        rightPress = true
+      }
+      if (e.key == 'd') {
+        vx2 = 1
+        dPress = true
+      }
+
+
+      if (e.key == 'ArrowLeft') {
+        vx = -1
+        leftPress = true
+      }
+      if (e.key == 'a') {
+        vx2 = -1
+        aPress = true
+      }
+
+
+      if (e.key == 'ArrowUp') {
+        vy = -1
+        upPress = true
+      }
+      if (e.key == 'w') {
+        vy2 = -1
+        wPress = true
+      }
+
+
+      if (e.key == 'ArrowDown') {
+        vy = 1
+        downPress = true
+      }
+      if (e.key == 's') {
+        vy2 = 1
+        sPress = true
+      }
+    })
+
+    document.addEventListener('keyup', function(e) {
+      console.log(e)
+      if (e.key == 'ArrowRight') {
+        rightPress = false
+        if (leftPress) {   //右边按住左边也按住时
+          vx = -1
+        } else {
+          vx = 0
+        }
+      }
+      if (e.key == 'd') {
+        dPress = false
+        if (aPress) {   //右边按住左边也按住时
+          vx2 = -1
+        } else {
+          vx2 = 0
+        }
+      }
+
+
+      if (e.key == 'ArrowLeft') {
+        leftPress = false
+        if (rightPress) {
+          vx = 1
+        } else {
+          vx = 0
+        }
+      }
+      if (e.key == 'a') {
+        aPress = false
+        if (dPress) {
+          vx2 = 1
+        } else {
+          vx2 = 0
+        }
+      }
+
+
+      if (e.key == 'ArrowUp') {
+        upPress = false
+        if (downPress) {
+          vy = 1
+        } else {
+          vy = 0
+        }
+      }
+      if (e.key == 'w') {
+        wPress = false
+        if (sPress) {
+          vy2 = 1
+        } else {
+          vy2 = 0
+        }
+      }
+
+
+      if (e.key == 'ArrowDown') {
+        downPress = false
+        if (upPress) {
+          vy = -1
+        } else {
+          vy = 0
+        }
+      }
+      if (e.key == 's') {
+        sPress = false
+        if (wPress) {
+          vy2 = -1
+        } else {
+          vy2 = 0
+        }
+      }
+    
+    })
+
+    var lastTime = 0
+    requestAnimationFrame(function move(time) {
+      var timeDiff = time - lastTime  
+      lastTime = time
+      div1.style.left = parseFloat(div1.style.left) + vx * timeDiff * 0.07 + 'px'
+      div1.style.top = parseFloat(div1.style.top) + vy * timeDiff * 0.07 + 'px'
+      div2.style.left = parseFloat(div2.style.left) + vx2 * timeDiff * 0.07 + 'px'
+      div2.style.top = parseFloat(div2.style.top) + vy2 * timeDiff * 0.07 + 'px'
+
+
+      requestAnimationFrame(move)
+    })
+  </script>
+</body>
+</html>

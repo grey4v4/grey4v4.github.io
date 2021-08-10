@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 100px;
+      background-color: rgb(33, 189, 189);
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+  <svg style="width: 600px; height: 600px; border: 1px solid #666"></svg>
+  <input type="color" id="colorInput">
+  <input type="range" id="widthRange" min='1' max='5'>
+
+  <script>
+    var svg = document.querySelector('svg')
+    var lastPos = null
+
+    document.addEventListener('mousedown', function(e) {
+      function drowDot(e) { 
+        var pos = mousePos(svg)
+          var line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+
+          if (lastPos == null) {
+            line.setAttribute('x2', pos.x)
+            line.setAttribute('y2', pos.y)
+          } else {
+            line.setAttribute('x2', lastPos.x)
+            line.setAttribute('y2', lastPos.y)
+          }
+          
+            line.setAttribute('x1', pos.x)
+            line.setAttribute('y1', pos.y)
+            line.setAttribute('stroke', colorInput.value)
+            line.setAttribute('stroke-width', widthRange.value)
+            line.setAttribute('stroke-linecap', "square")
+          
+          lastPos = pos
+          svg.append(line)
+        
+      }
+
+      document.addEventListener('mousemove', drowDot)//mousedown时才考虑mousemove事件
+  
+      document.addEventListener('mouseup', function(once) {
+        lastPos = null   //上一个位置为空 断开
+        document.removeEventListener('mouseup',once)
+        document.removeEventListener('mousemove', drowDot)
+      })
+    })
+
+    function mousePos(node) { //获取鼠标位置
+      var box = node.getBoundingClientRect()
+      return {
+        x: window.event.clientX - box.x,
+        y: window.event.clientY - box.y,
+      }
+    }
+  </script>
+</body>
+</html>
