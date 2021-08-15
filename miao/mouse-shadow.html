@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    span.shadow {
+      width: 10px;
+      height: 10px;
+      border-radius: 100px;
+      background-color: #d94f70;
+      position: fixed;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    // let i = 0
+    addEventListener('mousemove', e => {
+      // i++
+      // if (i % 2) {  //偶数的时候画一个
+      //   return
+      // }
+      let span = document.createElement('span')
+      span.classList.add('shadow')
+      span.style.left = e.clientX + 'px'
+      span.style.top = e.clientY + 'px'
+      document.body.appendChild(span)
+
+      setTimeout(() => {
+        document.body.removeChild(span)
+      }, 8 * 8)
+    })
+
+      // let x = -999
+      // let y = -999
+      // addEventListener('mousemove', e => {
+      //   x = e.clientX
+      //   y = e.clientY
+      // })
+
+      // let stack =[]
+      // function getStack() {  //不用重复创建span
+      //   if (stack.length) {  
+      //     return stack.pop()    //
+      //   } else {
+      //     return document.createElement('span')
+      //   }
+      // }
+      // requestAnimationFrame(function animate(time) {
+      //   let span = getStack()
+      //   span.classList.add('shadow')
+      //   span.style.left = x +'px'
+      //   span.style.top = y + 'px'
+      //   document.body.appendChild(span)
+
+      //   setTimeout(() => {
+      //     document.body.removeChild(span)
+      //     stack.push(span)
+      //   }, 16 * 8)
+      //   requestAnimationFrame(animate)
+      // })
+
+  </script>
+</body>
+</html>

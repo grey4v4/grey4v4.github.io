@@ -21,8 +21,8 @@
   </style>
 </head>
 <body>
-  <div id="tblr" style="top: 100px; left: 150px"></div>
-  <div id="wasd" style="top: 70px; left: 80px;"></div>
+  <div id="tblr" style="top: 100px; left: 100px"></div>
+  <div id="wasd" style="top: 70px; left: 30px;"></div>
   <script>
     var div1 = document.querySelector('div#tblr')
     var div2 = document.querySelector('div#wasd')
@@ -154,6 +154,13 @@
         }
       }
     
+    })
+
+    window.addEventListener('blur', function(e) {
+      vx = 0
+      vy = 0
+      vx2 = 0
+      vy2 = 0
     })
 
     var lastTime = 0

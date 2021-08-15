@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div></div>
+
+  <script>
+    // let last1 = 0
+    // let last2 = 0
+    // let last3 = 0 
+    // window.addEventListener('click', function(e){
+    //   console.log(1)
+    //   let time = Date.now()
+    //   if (time - last2 < 400 && last2 - last1 > 400) {
+    //     console.log(3)
+    //   }
+    //   last1 = last2
+    //   last2 = last3
+    //   last3 = time
+    // })
+
+
+      let last = 0
+      let id
+      let c = 1
+      window.addEventListener('click', e => {
+        console.log(1)
+        let time = Date.now()
+        clearTimeout(id)
+        id = setTimeout(() => {
+          c = 0
+        }, 200)
+        if (time - last < 200) {
+          c++
+        }
+        
+        if (c == 2) {
+          console.log(2)
+        }
+        if (c == 3) {
+          console.log(3)
+        }
+        if (c == 4) {
+          console.log(4)
+        }
+        last = time
+      })
+
+
+  </script>
+</body>
+</html>

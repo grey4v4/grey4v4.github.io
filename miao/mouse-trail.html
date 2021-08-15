@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      height: 30px;
+      width: 30px;
+      position:fixed;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <div style="background: #d94f70;"></div>
+  <div style="background: #42b6a9;"></div>
+  <div style="background: rosybrown;"></div>
+  <div style="background: #9c2336;"></div>
+  <div style="background: #9abad1;"></div>
+
+
+  <script>
+    let divs = document.querySelectorAll('div')
+    let x = -9999
+    let y = -9999
+
+    window.addEventListener('mousemove', e => {
+      console.log(0)
+      x = e.clientX
+      y = e.clientY
+    })
+
+
+    requestAnimationFrame(function animate(time) {
+      let angle = time * 0.002
+      for (let div of divs) {
+        div.style.left = Math.cos(angle) * 100 + x + 'px'
+        div.style.top = Math.sin(angle) * 100 + y + 'px'
+        angle += Math.PI * 2 / 5
+      }
+      requestAnimationFrame(animate)
+    })
+
+
+  </script>
+</body>
+</html>
