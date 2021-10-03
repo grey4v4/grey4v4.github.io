@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
+    body {
+      background-color: #f5f0f1;
+    }
     .dot {
       width: 10px;
       height: 10px;
@@ -13,15 +16,44 @@
       background-color: rgb(33, 189, 189);
       position: absolute;
     }
+    #svgBox svg{
+      margin-top: 14px;
+      box-shadow: 2px 2px 6px 6px #dbdbdb;
+      background-color: #fff;
+    }
+    button {
+      border: 1px solid #666;
+      border-collapse: collapse;
+      height: 25px;
+      width: 60px;
+      margin-left: -1px;
+    }
+    #colorInput {
+      border: 1px solid #666;
+      height: 25px;
+      width: 60px;
+    }
+    .leftButton {
+      margin-right: 50px;
+    }
   </style>
 </head>
 <body>
-  <svg style="width: 100%; height: 600px; border: 2px solid #666" viewBox="0 0 100% 600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"></svg> <br>
+  
+  <span class="leftButton">
+    <button onclick="openFiles()">打开</button>
+    <input type="file" name="" id="fileInput" hidden>
+    <button onclick="save()">保存</button>
+  </span>
+  
   形状：<button onclick="shapeType = 'line'">线条</button><button onclick="shapeType = 'circular'">圆形</button><button onclick="shapeType = 'circle'">椭圆</button><button onclick="shapeType = 'rectangle'">矩形</button>
   颜色：<input type="color" id="colorInput" value="#595d9d">
   粗细：<input type="range" id="rangeInput" min='1' max='8' value="3">
   <span class="widthValue">3</span>
-  <button onclick="save()">保存</button>
+
+  <div id="svgBox">
+    <svg style="width: 1000; height: 600px; border: 2px solid #666" viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"></svg> <br>
+  </div>
 
   <script>
     var svg = document.querySelector('svg')
@@ -30,7 +62,10 @@
     var shapeType = 'line'
     var drowTheLine = 0
     
-    svg.addEventListener('mousedown', function(e) {
+    svgBox.addEventListener('mousedown', function(e) {
+      if (!svg.contains(e.target)) {  //不在svg范围内点击
+        return 
+      }
       noSave = true
       drowTheLine++
       if (shapeType == 'line') {
@@ -47,7 +82,7 @@
           }
 
           line.setAttribute('data-drowTheLine', drowTheLine)
-          line.setAttribute('x1', pos.x)
+          line.setAttribute('x1', pos.x)                          
           line.setAttribute('y1', pos.y)
           line.setAttribute('stroke', colorInput.value)
           line.setAttribute('stroke-width', rangeInput.value)
@@ -195,7 +230,7 @@
     })
 
 
-
+    //保存
     function save() {
       noSave = false
       var source = svg.outerHTML
@@ -204,8 +239,31 @@
       var anchor = document.createElement('a')
       anchor.href = url
       anchor.download = 'zz.svg'
-      anchor.click()
+      anchor.click()  //点击触发
     }
+
+    //打开
+    function openFiles() {
+      if (noSave) {
+        var s = confirm('还未保存，是否打开？')
+        if (s == false) {
+          return 
+        }
+      }
+      fileInput.click()
+    }
+    fileInput.addEventListener('change', e => {
+      var file = fileInput.files[0]
+      var fr = new FileReader()
+      fr.addEventListener('load', () => {
+        var fileContent = fr.result
+        svgBox.innerHTML = fileContent
+        window.svg = svgBox.querySelector('svg')  //指向div里的svg
+      })
+      fr.readAsText(file)
+    })
+
+
   </script>
 </body>
 </html>

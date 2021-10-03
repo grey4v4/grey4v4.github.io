@@ -6,49 +6,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    div.a {
+    .drag {
       position: fixed;
+      user-select: none;
+      height: 100px;
+      width: 100px;
       user-select: none;
     }
   </style>
 </head>
 <body>
-  <div class="a" style="height: 100px;width: 100px;background-color: #234;"></div>
-  <div class="a" style="height: 100px;width: 100px;background-color: #655;"></div>
-  <div class="a" style="height: 100px;width: 100px;background-color: #387;"></div>
+  <div class="drag" style="left: 20px;top: 20px;background-color: #234;"></div>
+  <div class="drag" style="left: 50px;top: 50px;background-color: #655;"></div>
+  <div class="drag" style="left: 80px;top: 80px;background-color: #387;"></div>
 
   <script>
     // var div = document.querySelector('.a')
-
+    var maxZindex = 3
     document.addEventListener('mousedown', function(e) {
-      if (!e.target.classList.contains('a')) {
+      if (!e.target.classList.contains('drag')) {
         return
       }
-      console.log(1)
-      var X = e.clientX  //鼠标按下位置
-      var Y = e.clientY
-
+      // console.log(1)
+      var startX = e.clientX  //鼠标按下位置
+      var startY = e.clientY
+      e.target.style.zIndex = maxZindex++
       var elX = parseFloat(e.target.style.left) //元素初始位置
       var elY = parseFloat(e.target.style.top)
       
-      // var maxZindex = 3
-      console.log(2)
+      
+      // console.log(2)
 
       window.addEventListener('mousemove', function moved(ev) {
-        console.log(3)
+        // console.log(3)
         if (ev.which === 0 || ev.buttons === 0) {
           window.removeEventListener('movemouse', moved)
+          console.log('mousemoved')
           return
         }
-        console.log(4)
+        // console.log(4)
         var curX = ev.clientX  //鼠标移动后位置
         var curY = ev.clientY
 
-        var newX = curX - X   //移动多少
-        var newY = curY - Y
-        console.log(5)
+        var newX = curX - startX   //移动多少
+        var newY = curY - startY
+
         var left = elX + newX
         var top = elY + newY
+
+        
         if (left < 0) {
           left = 0
         }
@@ -63,8 +69,8 @@
         }
 
 
-        // e.target.style.zIndex = maxZindex++
-        console.log(6)
+        
+        // console.log(6)
         e.target.style.left = left + 'px'
         e.target.style.top = top + 'px'
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="world"></div>
+  <button onclick="next()">NEXT</button>
+  <button onclick="auto()">AUTO</button>
+
+  <script>
+    class conway {
+      constructor(height, width) {
+        this.height = height
+        this.width = width
+        this.world = new Array(height * width).fill(0)   //
+      }
+
+      randomFill(ratio = 0.2) {   //随机按比例填充
+        for (let i = 0; i < this.world.length; i++) {
+          this.world[i] = Math.random() > ratio ? 0 : 1
+        }
+      }
+
+      get(row, col) { //获取元素在第几行第几列
+        if (row > this.height || col > this.width || row < 0 || col < 0) {  //考虑边界
+          return 
+        }
+        return this.world[row * this.width + col]  
+      }   
+
+      set(row, col, val) {
+        if (row > this.height || col > this.width || row < 0 || col < 0) {  //考虑边界
+          return 
+        }
+        this.world[row * this.width + col] = val
+      }
+
+      neighbors(row, col) {//目标元素周围的邻居
+        let count = 0
+        //数出以row,col为中心的九个活着细胞的数量
+        for (let r = row - 1; r <= row + 1; r++) {  
+          for (let c = col -1; c <= col + 1; c++) {
+            count += this.get(r, c)
+          }
+        }
+        //减去中心的细胞
+        return count - this.get(row, col)  //注意是减去之前get的中心点(row,col),不是(r,c)
+      }
+
+      next() {
+        let newWorld = new Array(this.height * this.width).fill(0)//创建新世界覆盖
+        for (let c = 0; c < this.width; c++) {  //c在外层
+          for (let r = 0; r < this.height; r++) {
+            let thisStatus = this.get(r, c)
+            let liveNeighbors = this.neighbors(r, c)  //活着的细胞
+
+            if (thisStatus == 1) {   //在循环里面
+              if (liveNeighbors < 2 || liveNeighbors > 3) {
+
+              } else {
+                newWorld[r * this.width + c] = 1 //活着  中括号别写成小括号了
+              }
+            } else {
+              if (liveNeighbors == 3) {
+                newWorld[r * this.width + c] = 1 //活着
+              }
+            }
+          }
+        }
+        this.world = newWorld  //更新世界
+      }
+
+      printWorld() {
+        let html = ''
+        for (let r = 0; r < this.height; r++) {
+          for (let c = 0; c < this.width; c++) {
+            html += this.get(r, c) ? '<input type="checkbox" checked>' : '<input type="checkbox">' 
+          }
+          html += '<br>'
+        }
+        return html
+      }
+    }
+
+    let world = document.querySelector('#world')
+    x = new conway(20, 20) //别忘了填参数！！
+    x.randomFill()
+    world.innerHTML = x.printWorld()
+
+    function next() {
+      x.next()
+      world.innerHTML = x.printWorld()
+    }
+
+    let interval
+    let run = false
+    function auto() {
+      if (run) {
+        run = false
+        this.textContent = 'auto'
+        clearInterval(interval)
+      } else {
+        run = true
+        this.textContent = 'wrong'
+        interval = setInterval(next, 500)
+      }
+    }
+  </script>
+
+
+</body>
+</html>

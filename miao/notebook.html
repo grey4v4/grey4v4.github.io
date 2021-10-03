@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div {
+      float: left;
+      border: .5px solid rgb(37, 37, 37);
+      box-shadow: 2px 2px 8px 2px #dfdfdf;
+      height: 635px;
+      width: 322px;
+    }
+    select {
+      position: relative;
+      margin-left: 11px;
+      width: 300px;
+      height: 30px;
+    }
+    textarea {
+      position: relative;
+      margin-left: 8px;
+      margin-top: 10px;
+      width: 300px;
+      height: 490px;
+      vertical-align: bottom;
+      border: 0px;
+      background-color: #f0f0f0;
+    }
+    h2 {
+      /* margin: 0; */
+      position: relative;
+      left: 10px;
+    }
+    button {
+      position: relative;
+      border: 0px;
+      background-color: transparent;
+      top: 5px;
+      left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <button onclick="addNote()"> 十 </button>
+    <h2>便签</h2>
+    <select name="" id="list"></select>
+    <textarea name="" id="curNote" cols="30" rows="10"></textarea>
+  </div>
+
+
+    <script>
+      let list = document.querySelector('#list')
+
+      function addToList() {
+        let option = document.createElement('option')
+        option.textContent = name
+        list.appendChild(option)
+      }
+
+      let notes = JSON.parse(localStorage.getItem('notes')) || {'便签目录 ': ''}
+      for (name in notes) {
+        if (notes.hasOwnProperty(name)) {
+          addToList(name)
+        }
+      }
+
+      function saveToStorage() {
+        localStorage.setItem('notes', JSON.stringify(notes))
+      }
+
+      let curNote = document.querySelector('#curNote')
+      curNote.value = notes[list.value]
+
+      curNote.addEventListener('change', function(e) {
+        notes[list.value] = curNote.value
+        saveToStorage()
+      })
+
+      function addNote() {
+        let name = prompt('name')
+        if (!notes.hasOwnProperty(name)) {
+          notes[name] = ''
+          addToList(name)
+          saveToStorage()
+        }
+        list.value = name
+        curNote.value = notes[name]
+
+      }
+
+      let div = document.querySelector('div')
+      div.addEventListener('mousedown', e => {
+        console.log(1)
+        let x = e.clientX
+        let y = e.clientY
+
+        let elX = parseFloat(e.target.style.left)
+        let elY = parseFloat(e.target.style.top)
+
+        window.addEventListener('mousemove', function moved(event){
+          if (event.which === 0 || event.buttons === 0) {
+            removeEventListener('mousemove' , moved)
+            return
+          }
+          let currentX = event.clientX
+          let currentY = event.clientY
+          
+          let newX = currentX - x
+          let newY = currentY - y
+
+          let left = elX + newX
+          let top = elY + newY
+
+          div.style.left = left + 'px'
+          div.style.top = top + 'px'
+
+        })
+      })
+
+
+    </script>
+  
+</body>
+</html>

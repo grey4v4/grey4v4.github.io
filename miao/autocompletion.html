@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="search">
+  <ul></ul>
+
+  <script>
+    let input = document.querySelector('input')
+    let ul = document.querySelector('ul')
+    let currentShowTime = 0 // 当前展示的联想发起时间
+
+    input.addEventListener('input', debounce(function(e) {
+      let startTime = Date.now()
+      //发送请求数据
+      getSuggetion(e.target.value, (suggestion) => {
+        if (currentShowTime > startTime) {
+          return 
+        }
+        currentShowTime = startTime //内容显示了，当前发起事件就是开始时间
+
+        ul.innerHTML = ''
+        suggestion.forEach(suggest => {
+          let li = document.createElement('li')
+          li.textContent = suggest
+          ul.append(li)
+        })
+      })
+    }, 100))   //debounce函数每次input都会运行，但是会在最后一次运行停下来100毫秒后调用里面的函数
+
+
+    function getSuggetion(word, callback) {
+      let suggetion = Array(10).fill(0).map((a,b) => {
+        return word + b
+      })
+      setTimeout(() => {
+        callback(suggetion)
+      }, 200 + 2000 * Math.random())
+    }
+
+
+    function debounce(f, duration) {
+      var id //var id放更外面的话debounce只能用一次了，放下面里面的话id读到是空的
+      return function(...args) {  //可能接若干个参数
+          clearTimeout(id)  //先把前一次的清掉
+          id = setTimeout(() => {
+              f.call(this, ...args)
+          }, duration)
+      }
+    }
+  </script>
+</body>
+</html>

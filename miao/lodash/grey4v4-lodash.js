@@ -40,15 +40,44 @@ var grey4v4 = function () {
       }
       return result
     }
+  //---------------------------------------
+  function difference(array, ...values) {
+    let result = []
+    let otherRes = [].concat(...values)
+    for (let i = 0; i < array.length; i++) {
+      if (!otherRes.includes(array[i])) {
+        result.push(array[i])
+      }
+    }
+    return result
+  }
+  //---------------------------------------
+  
+  // function flattenDeep(array) {
+  //   let result = []
 
+  // }
+  //---------------------------------------
+  function fromPairs(pairs) {
+    let obj = {}
+    for (let i = 0; i < pairs.length; i++) {
+      obj[pairs[i][0]] = pairs[i][1]
+    }
+    return obj
+  }
+  //---------------------------------------
+  // function intersection(...array) {
+  //   let firstAry = array[0]
+  //   let restAry = 
+    
+  // }
   //---------------------------------------
     function uniq(array) {
       var result = []
-      for (var i = 0, l = array.length; i < l; i++) {
-        for (var j = i + 1; j < l; j++) 
-          if (array[i] === array[j])
-            j = ++i
+      for (let i = 0; i < array.length; i++) {
+        if (!result.includes(array[i])) {
           result.push(array[i])
+        }
       }
       return result
     }
@@ -225,6 +254,16 @@ var grey4v4 = function () {
       }
     }
     return -1
+  }
+  //----------------------------------------------
+  function without(array, values) {
+    let result = []
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] !== values) {
+        result.push(array[i])
+      }
+    }
+    return result
   }
   //----------------------------------------------
   function slice(array, start = 0, end = array.length) {
@@ -423,12 +462,30 @@ var grey4v4 = function () {
     for (let i = 0; i < array.length; i++) {
       if (array[i] >= value) {
         return i
+      } 
+    }
+  }
+  //-------------------------------------
+  function sortedIndexOf(array, value) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] == value) {
+        return i
       } else {
-        return array.length
+        return -1
       }
     }
   }
   //-------------------------------------
+  function sortedLastIndex(array, value) {
+    return lastIndexOf(array, value) + 1
+  }
+
+  //-------------------------------------
+  function sortedLastIndexOf(array, value) {
+    return lastIndexOf(array, value)
+  }
+  //-------------------------------------
+
   function sortedUniq(array) {
     let result = []
     for (let i = 0; i < array.length; i++) {
@@ -455,6 +512,20 @@ var grey4v4 = function () {
     }
     return result
   }
+  //-------------------------------------
+  function takeRight(array, n) {
+    if (n == undefined) {
+      return array.slice(-1)
+    }
+    if (n == 0) {
+      return []
+    }
+    return array.slice(-n)
+  }
+  //-------------------------------------
+  // function union(...array) {
+
+  // }
   //-------------------------------------
   function size(collection) {
     if (typeof collection == 'number' || typeof collection == 'string') {
@@ -672,9 +743,9 @@ var grey4v4 = function () {
   }
 
   //------------------------------------------
-  function clamp(number, lower, upper) {
-
-  }
+  // function clamp(number, lower, upper) {
+    
+  // }
 
   //-----------------------------------------------
   function capitalize(str) {
@@ -686,7 +757,7 @@ var grey4v4 = function () {
     return result.join('')
   }
   //------------------------------------------
-  function endWith(str, target, position) {
+  function endsWith(str, target, position) {
     if (position == undefined) {
       if (str[str.length - 1] == target) {
         return true
@@ -701,6 +772,8 @@ var grey4v4 = function () {
     chunk: chunk,
     compact: compact,
     concat: concat,
+    difference: difference,
+    fromPairs: fromPairs,
     uniq: uniq,
     forEach: forEach,
     iteratee:iteratee,
@@ -739,8 +812,10 @@ var grey4v4 = function () {
     isMatch: isMatch,
     pull: pull,
     sortedIndex: sortedIndex,
+    sortedIndexOf: sortedIndexOf,
     sortedUniq: sortedUniq,
     take: take,
+    takeRight: takeRight,
     size: size,
     gt: gt,
     gte: gte,
@@ -756,8 +831,8 @@ var grey4v4 = function () {
     isString: isString,
     toArray: toArray,
     mean: mean,
-    clamp: clamp,
+    // clamp: clamp,
     capitalize: capitalize,
-    endWith: endWith,
+    endsWith: endsWith,
   }
 }()

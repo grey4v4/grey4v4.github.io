@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <pre></pre>
+
+  <script>
+    class snake {
+      constructor(width, height) {
+        this.width = width
+        this.height = height
+        this.world = null
+        this.snakeLength = 0
+        this.headPos = null
+        this.tailPos = null
+        // this.world[5][5] = '→'
+        // this.randomApple()
+        // this.isGameOver = false
+        this.init()
+      }
+      init() {
+        this.world = Array(this.height).fill(0).map(it => Array(this.width).fill('.'))
+        this.world[5][5] = '→'
+        this.snakeLength = 1
+        this.headPos = {row: 5, rol: 5}
+        this.tailPos = {row: 5, rol: 5}
+        this.randomApple()
+      }
+
+
+      randomApple() {
+        let row = Math.floor(this.height * Math.random())
+        let col = Math.floor(this.width * Math.random())
+        if (this.world[row][col] == '.') {
+          this.world[row][col] = 'A'
+        } else {
+          this.randomApple()
+        }
+      }
+
+      getChar(pos) {  //获取符号
+        
+        return this.world[pos.row][pos.col]
+       
+      }
+      setChar(pos, char) {
+        this.world[pos.row][pos.col] = char
+      }
+
+      // gameOver() {
+      //   if (this.isGameOver) {
+      //     alert('hh')
+      //   }
+      // }
+
+      getNext(pos) {  //获取snake的下一个坐标
+        let snakeHeadChar = this.getChar(pos)
+        if (snakeHeadChar == '↑') {
+          return {row: pos.row - 1, col: pos.col}
+        }
+        if (snakeHeadChar == '↓') {
+          return {row: pos.row + 1, col: pos.col}
+        }
+        if (snakeHeadChar == '←') {
+          return {row: pos.row, col: pos.col - 1}
+        }
+        if (snakeHeadChar == '→') {
+          return {row: pos.row, col: pos.col + 1}
+        }
+      }
+
+      next() {
+        // if (this.isGameOver) {
+        //   return
+        // }
+        let curHead = this.getChar(this.headPos)  //头坐标符号
+        let nextHeadPos = this.getNext(this.headPos)  //下一个头坐标
+        let nextHead = this.getChar(nextHeadPos)  //下一个头坐标符号
+        if (nextHead == '.') {  //空位置
+          this.setChar(nextHeadPos, curHead)
+          this.headPos = nextHeadPos //更新蛇头
+        } else if (nextHead == 'A') {
+          this.setChar(nextHeadPos, curHead)
+          this.headPos = nextHeadPos  //更新蛇头
+          this.randomApple() //如果是苹果还要让下一个苹果出现
+        }
+        
+        if (nextHead == '.') {
+          let nextTailPos = this.getNext(this.tailPos)  //下一个蛇尾坐标
+          this.setChar(this.tailPos, '.')
+          this.tailPos = nextTailPos
+        }
+        return this
+      }
+
+      changeDirection(direction) {
+        switch(direction) {
+          case 'up': return this.setChar(this.headPos,'↑')
+          case 'down': return this.setChar(this.headPos, '↓')
+          case 'left': return this.setChar(this.headPos, '←')
+          case 'right': return this.setChar(this.headPos, '→')
+        }
+      }
+
+      print() {
+        console.log(this.toString())
+      }
+      toString() {
+        return this.world.map(row => {
+          return row.map(char => {
+            if (char =='.') {
+              return '💛'
+            } else if (char == 'A'){
+              return '💚'
+            } else {
+              return '🧡'
+            }
+          }).join('')
+        }).join('\n')
+      }
+
+    }
+
+    let pre = document.querySelector('pre')
+    let box = new snake(20, 20)
+
+    document.addEventListener('keydown', e => {
+      // console.log(0)
+      if (e.key.startsWith('Arrow')) {  //按下去的键以arrow开头的
+        let direction = e.key.slice(5).toLowerCase()
+        box.changeDirection(direction)
+        clearInterval(id)
+        tick()
+        id = setInterval(tick, 1000)
+      }
+    })
+
+    pre.textContent = box.toString()
+
+    function tick() {
+      box.next()
+      pre.textContent = box.toString()
+      console.log(box.toString())
+    }
+
+    let id = setInterval(tick, 1000)
+
+  </script>
+</body>
+</html>

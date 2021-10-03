@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #gameWorld {
+      height: 300px;
+      width: 300px;
+    }
+    #gameWorld span {
+      float: left;
+    }
+  </style>
+</head>
+<body>
+    行
+  <select name="" id="rowCount">
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
+    列
+  <select name="" id="colCount">
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
+  <select name="" id="imgSelect">
+    <option value="pic.png">pic1</option>
+    <option value="sun.png">pic2</option>
+    <option value="moon.png">pic3</option>
+  </select>
+  <button onclick="start()">开始</button>
+  <div id="gameWorld"></div>
+
+  <script>
+    class puzzle{
+      constructor(width = 3, height = 3) {
+        this.width = width,
+        this.height = height,
+        this.world = Array(height).fill(0).map(it => Array(width).fill(0))
+        this.init()
+      }
+      init() {
+        let i = 0
+        for (var row = 0; row < this.height; row++) {
+          for (var col = 0; col < this.width; col++) {
+            this.world[row][col] = i++
+          }
+        }
+        this.world[row - 1][col - 1] = -1  //-1表示最后一个位置为空
+        this.emptyRow = row - 1
+        this.emptyCol = col - 1
+      }
+
+      inRange(row, col) {  //move时是否会超过这个world,会多次调用所以写成函数
+        if (row < 0 || col < 0) {
+          return false
+        }
+        if (row >= this.height || col >= this.width) {
+          return false
+        }
+        return true
+      }
+
+      move(row, col) {  //交换位置后空白位置的位置，多次调用所以写成函数
+        if (this.inRange(row, col)) {
+          this.world[this.emptyRow][this.emptyCol] = this.world[row][col]
+          this.world[row][col] = -1
+          this.emptyRow = row  //换过位置后需使空位置变为当前位置
+          this.emptyCol = col  
+          this.print()
+         }
+      }
+
+      up() {
+        let moveRow = this.emptyRow + 1
+        let moveCol = this.emptyCol
+        this.move(moveRow, moveCol)
+        
+      }
+      down() {
+        let moveRow = this.emptyRow - 1
+        let moveCol = this.emptyCol
+        this.move(moveRow, moveCol)
+      }
+      left() {
+        let moveRow = this.emptyRow
+        let moveCol = this.emptyCol + 1
+        this.move(moveRow, moveCol)
+      }
+      right() {
+        let moveRow = this.emptyRow
+        let moveCol = this.emptyCol - 1
+        this.move(moveRow, moveCol)
+      }
+
+      print() {
+        console.log(this.toString())
+      }
+      toString() {
+        return this.world.map(row => {
+          return row.map(it => {
+            if (it == -1) {
+              return '#'
+            } else {
+              return it
+            }
+          }).join('')
+        }).join('\n')
+      }
+
+    }
+    // let game = new puzzle()
+
+    function start() {
+      let height = rowCount.value - 0
+      let width = colCount.value - 0
+      let game = new puzzle(width, height)
+      renderGame(game)
+      document.addEventListener('keydown', e => {
+        if (e.key.startsWith('Arrow')) {
+          let direction = e.key.slice(5).toLowerCase()
+          game[direction]()
+          renderGame(game)
+        }
+      })
+    }
+
+    function renderGame(game) {
+      for (let row = 0; row < game.world.length; row++) {
+        for (let col = 0; col < game.world[row].length; col++) {
+          let num = game.world[row][col]  //
+          let x = num % game.width  //所在行
+          let y = Math.floor(num / game.width)  //所在列
+          let width = 300 / game.width  //每个span的宽度
+          let height = 300 / game.height  //每个span的高度
+          let span = document.createElement('span')
+          span.textContent = num
+          span.style = `width: ${width}px;height: ${height}px;
+          background-image: url(${imgSelect.value});
+          background-position: -${width * x}px -${height * y}px;
+          background-size: 300px 300px;`
+          if (num == -1) {
+            span.style.background = ''
+          }
+          gameWorld.append(span)
+        }
+      }
+    }
+
+
+
+
+
+  </script>
+</body>
+</html>

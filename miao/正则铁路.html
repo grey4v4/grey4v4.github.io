@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <svg style="width: 4444px;height: 4444px"></svg>
+  <script>
+    let str = 'abc|def?'
+    let i = 0
+    let groupIndex = 1
+
+    function parseCharacter() {
+      let node = {
+        type: 'Character',
+        start: i,
+        end: 0,
+        raw: '',  
+        value: str[i],
+        ascii: str.charCodeAt(i),
+      }
+      i++
+      node.end = i
+      node.raw = str.slice(node.start, node.end)
+      return node
+    }
+
+    //[^abc]
+    function parseCharacterClass() {
+      let node = {
+        type: 'CharacterClass',
+        start: i,
+        end: 0,
+        raw: '',
+        elements: [],
+        revert: false,  //字符集是否取反，即中括号内是否是^开头
+      }
+      i++  //跳过[
+      if (str[i] == '^') {
+        node.revert = true
+        i++ //跳过^
+      }
+      while(str[i] != ']') {
+        let charNode = parseCharacter()
+        node.elements.push(charNode)
+      }
+      i++   //跳过]
+      node.end = i
+      node.raw = str.slice(node.start, node.end)
+      return node
+    }
+
+    //解析出单个完整的部分，可以是字符，字符集，括号，量词等
+    function parseOneElement() {
+      if (str[i] == '[') {
+        return parseCharacterClass()
+      }
+      if (str[i] == '(') {
+        return parseCaptureGroup()
+      }
+      if (str[i] == '\\') {
+        return parseEscape()
+      }
+      if (str[i] == '?' || str[i] == '*' || str[i] == '+' || str[i] == '{') {
+        return parseQuantifier()
+      }
+      return parseCharacter()
+    }
+
+    function parseQuantifier() {
+      let node = {
+        type: 'Quantifier',
+        start: i,
+        end: 0,
+        raw: '',
+        element: null,
+        greedy: true,  //是否是贪婪匹配
+        min: 0,
+        max: Infinity,
+      }
+      if (str[i] == '*') {
+        i++
+      } else if (str[i] == '?') {
+        node.max = 1
+        i++
+      } else if (str[i] == '+') {
+        node.min = 1
+        i++
+      } else if (str[i] == '{') {
+        //{111,222} {2222,}
+        i++ //跳过{
+        let min = parseNumber()
+        node.min = min
+        if (str[i] == '}') {
+          node.max = min
+        } else {
+          i++ //跳过,
+          if (str[i] == '}') {
+            i++  //跳过}
+          } else {
+            let max = parseNumber()
+            node.max = max
+            i++  //跳过}
+          }
+        }
+      }
+
+      if (str[i] == '?') {
+        node.greedy = false  //非贪婪匹配
+        i++
+      }
+      node.end = i
+      node.raw = str.slice(node.start, node.end)
+      return node
+    }
+
+    function parseNumber() {
+      let numStr = ''
+      while(str[i] >= '0' && str[i] <= '9') { //由数字组成的字符
+        numStr += str[i]
+        i++
+      }
+      return Number(numStr)
+    }
+
+    //abc[def]*(x)
+    function parseAlternative() {
+      let node = {
+        type: 'Alternative',
+        start: i,
+        end: 0,
+        raw: '',
+        elements: [],
+      }
+      //遇到|或到字符串结束时停
+      while(str[i] !== '|' && str[i] !== ')' && i < str.length) {
+        let element = parseOneElement()  //结点本身
+        if (element.type == 'Quantifier') { //如果解析出是量词，把之前push进去的单个元素取出来，跟量词放在一起
+          let quantifierElement = element
+          let prevElement = node.elements.pop()
+          if (prevElement.type == 'Quantifier') { //遇到)报错
+            throw new SyntaxError('unexpected quantifier at pos: ' + i)
+          }
+          quantifierElement.element = prevElement  //量词要重复的元素
+          quantifierElement.start = prevElement.start
+          quantifierElement.raw = str.slice(quantifierElement.start, quantifierElement.end)
+          node.elements.push(quantifierElement)
+        } else {
+          node.elements.push(element)
+        }
+      }
+      node.end = i
+      node.raw = str.slice(node.start, node.end)
+      return node
+    }
+
+    function parseAlternatives() {
+      let alternatives = []
+      do {
+        let alt = parseAlternative()
+        alternatives.push(alt)
+        if (str[i] == '|') {
+          i++
+        } else if (str[i] == ')') {  //用else if，i++后有可能遇到)，如果用if也有可能进去
+          break
+        } else if (i >= str.length) {
+          break
+        }
+      } while (true)
+      return alternatives
+    }
+
+    function parseCaptureGroup() {
+      let node = {
+        type: 'CaptureGroup',
+        start: i,
+        end: 0,
+        raw: '',
+        assertion: false,  // 是否是零宽断言
+        lookahead: true, //是否为预测断言，向右看；为false时为回顾断言，向左看
+        positive:true, //正向断言，断言存在；
+        index: groupIndex++,  //分组编号
+        name: null,  //分组名称
+      }
+      //(foo|bar)
+      //(?:foo)
+      //(?!foo)
+      //(?=foo)
+      //(?<=foo)
+      //(?<!foo)
+      //(?<xxx>foobar)
+      i++  //跳过(
+      if (str[i] == '?') {
+        i++  //跳过？
+        if (str[i] == ':') {
+          node.index = 0
+          groupIndex--  //非捕获分组
+          i++  //跳过:
+        } else if (str[i] == '=') {
+          node.index = 0
+          groupIndex--
+          node.assertion = true
+        } else if (str[i] == '!') {
+          node.index = 0
+          groupIndex--
+          node.positive = false
+          i++
+        } else if (str[i] == '<') {  
+          i++
+          if (str[i] == '=') {
+            node.assertion = true
+            node.lookahead = false
+            node.index = 0
+            groupIndex--
+          } else if (str[i] == '!') {
+            node.assertion = true
+            node.lookahead = false
+            node.positive = false
+            node.index = 0
+            groupIndex--
+            i++
+          } else {  //具名分组
+            let name = parseGroupName()
+            node.name = name
+            i++
+          }
+        }
+      }
+  
+      
+      node.alternatives = parseAlternatives()
+      i++
+      
+      node.end = i
+      node.raw = str.slice(node.start, node.end)
+      return node
+    }
+    //解析分组具名名称
+    function parseGroupName() {
+      let simStr = ''
+      while (str[i] !== '>') {
+        simStr += str[i]
+        i++
+      }
+      return simStr.trim()
+    }
+
+    function parsePattern(input) {
+      str = input
+      i = 0
+      groupIndex = 1
+      return {
+        type: 'Pattern',
+        alternatives: parseAlternatives(),
+        raw: input,
+      }
+    }
+
+    function createGraph(node) {
+      if (node.type == 'Character') {
+        return createCharacterGraph(node)
+      }
+      if (node.type == 'CharacterClass') {
+        return createCharacterClassGraph(node)
+      }
+      if (node.type == 'Quantifier') {
+        return createQuantifierGraph(node)
+      }
+      if (node.type == 'CaptureGroup') {
+        return createCaptureGroupGraph(node)
+      }
+      if (node.type == 'Pattern') {
+        return createPatternGraph(node)
+      }
+    }
+
+    let padding = 10
+    function createCharacterGraph(node) {
+      let text = svgElt('text', {
+        y: 25,
+        x: padding,
+      })
+      text.textContent = node.value
+      let textBox = text.getBBox()
+      let g = svgElt('g')
+      let rect = svgElt('rect', {
+        width: textBox.width + 2 * padding,
+        height: textBox.height + 2 * padding,
+        fill: '#9abad1',
+        rx: padding / 4,
+        ry: padding / 4,
+      })
+
+      g.append(rect)
+      g.append(text)
+
+      return {
+        g: g,   //g标签
+        box: g.getBBox(),  //尺寸
+      }
+    }
+
+    function add(a, b) {  //高度相加
+      return a + b
+    }
+    function max(a, b) {  //取最宽的字符宽度
+      return Math.max(a, b)
+    }
+
+    function createAlternativeGraph(node) {
+      let subGraphs = node.elements.map(createGraph)
+      let width = subGraphs.map(it => it.box.width).reduce(add) + (subGraphs.length + 1) * padding
+      let height = subGraphs.map(it => it.box.height).reduce(max) + 2 * padding
+      let g = svgElt('g')
+      let rect = svgElt('rect', {
+        width: width,
+        height: height,
+        fill: '#c4d08b',
+      })
+      g.append(rect)
+
+      let line = svgElt('path', {
+        stroke: 'black',
+        strokeWidth: '2',
+        fill: 'none,'
+      })
+      g.append(line)
+
+      let d = ''
+      let offset = padding
+      for (let graph of subGraphs) {
+        graph.g.style.transform = `translate(${offset}px, ${(height - graph.box.height) / 2}px)`
+        g.append(graph.g)
+        d += `M ${offset} ${height / 2} h -${padding}`
+        line.setAttribute('d', d)
+        offset += padding + graph.box.width
+      }
+      d += `M ${offset} ${height / 2} h -${padding}`
+      line.setAttribute('d', d)
+      return {
+        g: g,
+        box: g.getBBox(),
+      }
+    }
+
+    function createCharacterClassGraph(node) {
+      let subGraphs = node.elements.map(createGraph)  //得到每个字符的图像
+      let width = subGraphs.map(it => it.box.width).reduce(max) + 2 * padding
+      let height = subGraphs.map(it => it.box.height).reduce(add) + (subGraphs.length + 1) * padding
+
+      let g = svgElt('g')
+      let rect = svgElt('rect', {
+        width: width,
+        height: height,
+        fill: '#fddd9b'
+      })
+      g.append(rect)
+
+      let offset = padding
+      for (let graph of subGraphs) {
+        graph.g.style.transform = `translate(${(width - graph.box.width) / 2}px, ${offset}px)`
+        g.append(graph.g)
+        offset += padding + graph.box.height
+      }
+      return {
+        g: g,
+        box: g.getBBox()
+      }
+    }
+
+    // function 
+    let svg = document.querySelector('svg')
+    function svgElt(tagName, attrs) {
+      let el = document.createElementNS('http://www.w3.org/2000/svg', tagName)
+      for (let key in attrs) {
+        let val = attrs[key]
+        el.setAttribute(key, val)
+      }
+      svg.append(el)
+      return el
+    }
+
+    // debugger
+    str = 'abcdzxzxz[adsdfgt]'
+    let node = parseAlternative()
+    createAlternativeGraph(node)
+
+    </script>
+</body>
+</html>
